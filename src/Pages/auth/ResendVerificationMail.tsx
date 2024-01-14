@@ -1,18 +1,32 @@
-import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
+import { Fragment, useEffect } from "react";
+import toast from "react-hot-toast";
+import { Box, Heading } from "@radix-ui/themes";
+import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
+import { Button, Flex, Text, TextField } from "@radix-ui/themes";
 import { MailCheck } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
+import { useResendVerifyAccountMailMutation } from "../../redux/services/AuthApi";
 import { Link } from "react-router-dom";
-import { useForgotPasswordMutation } from "../../redux/services/AuthApi";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
 
-type Inputs = {
-  email: string;
-};
+const ResendVerificationMail = () => {
+  const [resendVerifyAccountMail, resendVerifyAccountMailResult] =
+    useResendVerifyAccountMailMutation();
 
-const ForgotPassword = () => {
-  const [forgotPassword, forgotPasswordResult] = useForgotPasswordMutation();
+  type Inputs = {
+    email: string;
+  };
+
+  const handleResendVerificationLink: SubmitHandler<Inputs> = async (data) => {
+    await resendVerifyAccountMail(data);
+  };
+
+  useEffect(() => {
+    if (resendVerifyAccountMailResult.isSuccess) {
+      toast("Verification Mail has been sent");
+    } else if (resendVerifyAccountMailResult.isError) {
+      toast.error("Internal server error");
+    }
+  }, [resendVerifyAccountMailResult.isLoading]);
 
   const {
     register,
@@ -20,23 +34,11 @@ const ForgotPassword = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const handleResetPassword: SubmitHandler<Inputs> = async (data) => {
-    await forgotPassword(data);
-  };
-
-  useEffect(() => {
-    if (forgotPasswordResult.isSuccess) {
-      toast.success("Reset Password Mail has been sent to your account");
-    } else if (forgotPasswordResult.isError) {
-      toast.error("Invalid Credentials");
-    }
-  }, [forgotPasswordResult.isLoading]);
-
   return (
     <AuthComponentWrapper>
       <Flex className="" direction="column" gap="4">
         <Heading align="center">
-          Forgot Password -{" "}
+          Resend Verification Mail -{" "}
           <span
             style={{
               backgroundClip: "text",
@@ -69,24 +71,21 @@ const ForgotPassword = () => {
               </Text>
             )}
           </Box>
-          <Text>
-            OR{" "}
-            <Link className="text-red-800 underline" to="/login">
-              Login
-            </Link>
-          </Text>
         </Flex>
-        <Button
-          size="3"
-          className="cursor-pointer"
-          color="red"
-          onClick={handleSubmit(handleResetPassword)}
-        >
-          Send Reset Password Link
-        </Button>
+        <Fragment>
+          <Button
+            size="3"
+            disabled={resendVerifyAccountMailResult.isLoading ? true : false}
+            className="cursor-pointer"
+            color="red"
+            onClick={handleSubmit(handleResendVerificationLink)}
+          >
+            Send Reset Password Link
+          </Button>
+        </Fragment>
       </Flex>
     </AuthComponentWrapper>
   );
 };
 
-export default ForgotPassword;
+export default ResendVerificationMail;

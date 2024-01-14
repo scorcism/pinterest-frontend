@@ -23,7 +23,7 @@
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.21.2",
     "react-select": "^5.8.0",
-    "react-spinner": "^0.2.7"
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

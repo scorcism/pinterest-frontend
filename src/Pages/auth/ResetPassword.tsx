@@ -2,6 +2,10 @@ import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import { ShieldAlert } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
+import { useResetPasswordMutation } from "../../redux/services/AuthApi";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Inputs = {
   password: string;
@@ -9,15 +13,30 @@ type Inputs = {
 };
 
 const ResetPassword = () => {
+  const [resetPassword, resetPasswordResult] = useResetPasswordMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-
-  const handleSubmitForm: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const params = useParams();
+  const { id, token } = params;
+  const handleSubmitForm: SubmitHandler<Inputs> = async (data) => {
+    await resetPassword({ id, token, body: data });
   };
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (resetPasswordResult.isSuccess) {
+      toast.success("Password reset Success, Please Login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    } else if (resetPasswordResult.isError) {
+      toast.error("Reset Password faild, Please try again");
+    }
+  }, [resetPasswordResult.isLoading]);
 
   return (
     <AuthComponentWrapper>
@@ -82,6 +101,7 @@ const ResetPassword = () => {
         </Flex>
         <Button
           size="3"
+          disabled={resetPasswordResult.isLoading ? true : false}
           className="cursor-pointer"
           color="red"
           onClick={handleSubmit(handleSubmitForm)}

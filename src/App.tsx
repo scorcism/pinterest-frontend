@@ -10,6 +10,8 @@ import CreatePost from "./Pages/home/CreatePost";
 import Settings from "./Pages/home/Settings";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./Pages/home/NotFound";
+import PrivateRoutes from "./Components/PrivateRoutes";
+import ResendVerificationMail from "./Pages/auth/ResendVerificationMail";
 
 function App() {
   return (
@@ -25,10 +27,13 @@ function App() {
         <Route path="/verify-account/:id" element={<VerifyAccount />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
+        <Route path="/resent-verification-mail" element={<ResendVerificationMail />} />
 
         {/* Home Routes, require auth */}
-        <Route path="/create" element={<CreatePost />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/create" element={<CreatePost />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
 
         <Route path="*" element={<NotFound />} />
       </Routes>

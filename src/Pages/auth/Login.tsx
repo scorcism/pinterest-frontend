@@ -2,7 +2,11 @@ import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import { MailCheck, ShieldAlert } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginUserMutation } from "../../redux/services/AuthApi";
+import { Fragment, useEffect } from "react";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 type Inputs = {
   email: string;
@@ -10,14 +14,27 @@ type Inputs = {
 };
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit
-  } = useForm<Inputs>();
+  const [loginUser, loginUserResult] = useLoginUserMutation();
 
-  const handleLogin: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const { register, handleSubmit } = useForm<Inputs>();
+
+  const handleLogin: SubmitHandler<Inputs> = async (data: Inputs) => {
+    await loginUser(data);
   };
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (loginUserResult.isSuccess) {
+      // @ts-ignore
+      Cookies.set("AUTH_TOKEN", loginUserResult.data.data.token);
+      // @ts-ignore
+      Cookies.set("AUTH_EMAIL", loginUserResult.data.data.email);
+
+      navigate("/");
+    } else if (loginUserResult.isError) {
+      // @ts-ignore
+      toast.error(loginUserResult.error?.data.message);
+    }
+  }, [loginUserResult.isLoading]);
 
   return (
     <AuthComponentWrapper>
@@ -64,16 +81,28 @@ const Login = () => {
               />
             </TextField.Root>
           </Box>
-          <Text color="red" className="underline"><Link to="/forgot-password">Forgot Password</Link></Text>
+          <Text color="red" size="1" className="underline">
+            <Link to="/forgot-password">Forgot Password</Link>
+          </Text>
         </Flex>
-        <Button
-          size="3"
-          className="cursor-pointer"
-          color="red"
-          onClick={handleSubmit(handleLogin)}
-        >
-          Login
-        </Button>
+        <Fragment>
+          <Button
+            disabled={loginUserResult.isLoading ? true : false}
+            size="3"
+            className="cursor-pointer"
+            color="red"
+            onClick={handleSubmit(handleLogin)}
+          >
+            Login
+          </Button>
+          {loginUserResult.isError && (
+            <Text size="2" className="underline text-red-800">
+              <Link to="/resent-verification-mail">
+                Resend Verification Mail
+              </Link>
+            </Text>
+          )}
+        </Fragment>
         <Heading align="center" as="h4" size="3">
           OR
         </Heading>

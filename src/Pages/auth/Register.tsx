@@ -1,11 +1,10 @@
 import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
-import {
-    MailCheck,
-    PersonStanding,
-    ShieldAlert
-} from "lucide-react";
+import { MailCheck, PersonStanding, ShieldAlert } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
+import { useRegisterUserMutation } from "../../redux/services/AuthApi";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 type Inputs = {
   name: string;
@@ -14,15 +13,27 @@ type Inputs = {
 };
 
 const Register = () => {
+  const [registerUser, registerUserResult] = useRegisterUserMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const handleRegister: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const handleRegister: SubmitHandler<Inputs> = async (data: Inputs) => {
+    await registerUser(data);
   };
+
+  useEffect(() => {
+    if (registerUserResult.isSuccess) {
+      toast("Registration comple, Please verify your account", {
+        icon: "🎶",
+      });
+    } else if (registerUserResult.isError) {
+      toast.error("Account already exists with the email");
+    }
+  }, [registerUserResult.isLoading]);
 
   return (
     <AuthComponentWrapper>
@@ -104,11 +115,12 @@ const Register = () => {
         </Flex>
         <Button
           size="3"
+          disabled={registerUserResult.isLoading ? true : false}
           className="cursor-pointer"
           color="red"
           onClick={handleSubmit(handleRegister)}
         >
-          Register
+          {"Register"}
         </Button>
         <Heading align="center" as="h4" size="3">
           OR
