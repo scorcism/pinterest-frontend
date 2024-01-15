@@ -6,7 +6,6 @@ import { Button, Flex, Text, TextField } from "@radix-ui/themes";
 import { MailCheck } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useResendVerifyAccountMailMutation } from "../../redux/services/AuthApi";
-import { Link } from "react-router-dom";
 
 const ResendVerificationMail = () => {
   const [resendVerifyAccountMail, resendVerifyAccountMailResult] =

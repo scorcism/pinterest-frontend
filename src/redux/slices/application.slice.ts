@@ -6,10 +6,9 @@ export const applicationSlice = createSlice({
   name: "application",
   initialState,
   reducers: {
-    logginUser: (state, action) => {},
   },
 });
 
-export const { logginUser } = applicationSlice.actions;
+export const {  } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

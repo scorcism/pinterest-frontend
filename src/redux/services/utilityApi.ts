@@ -12,8 +12,14 @@ export const utilityApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    
+    updateSettings: builder.mutation({
+      query: (cred: any) => ({
+        url: `/`,
+        method: "post",
+        body: cred,
+      }),
+    }),
   }),
 });
 
-export const {  } = utilityApi;
+export const {} = utilityApi;
