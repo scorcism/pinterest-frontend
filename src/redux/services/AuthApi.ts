@@ -36,7 +36,7 @@ export const authApi = createApi({
     }),
     resendVerifyAccountMail: builder.mutation<String, any>({
       query: (cred: any) => ({
-        url: `/resend-verify-account/`,
+        url: `/resend-verification-mail/`,
         method: "post",
         body: cred,
       }),
@@ -57,5 +57,5 @@ export const {
   useForgotPasswordMutation,
   useVerifyAccountMutation,
   useResendVerifyAccountMailMutation,
-  useResetPasswordMutation
+  useResetPasswordMutation,
 } = authApi;

@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <Box className="h-[6vh] px-3">
+    <Box className="h-[6vh] px-3 py-7">
       <Flex direction="row" justify="between" align="center" className="h-full">
         <Flex justify="between" gap="6">
           <Heading as="h2" size="4">

@@ -21,10 +21,12 @@ const ResendVerificationMail = () => {
   };
 
   useEffect(() => {
+    console.log(resendVerifyAccountMailResult);
     if (resendVerifyAccountMailResult.isSuccess) {
       toast("Verification Mail has been sent");
     } else if (resendVerifyAccountMailResult.isError) {
-      toast.error("Internal server error");
+      // @ts-ignore
+      toast.error(`${resendVerifyAccountMailResult.error.data.message}`);
     }
   }, [resendVerifyAccountMailResult.isLoading]);
 
