@@ -1,5 +1,11 @@
 import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
-import { MailCheck, PersonStanding, ShieldAlert } from "lucide-react";
+import {
+  DnaIcon,
+  MailCheck,
+  PersonStanding,
+  ShieldAlert,
+  User,
+} from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
 import { useRegisterUserMutation } from "../../redux/services/AuthApi";
@@ -7,6 +13,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 type Inputs = {
+  username: string;
   name: string;
   email: string;
   password: string;
@@ -31,13 +38,14 @@ const Register = () => {
         icon: "🎶",
       });
     } else if (registerUserResult.isError) {
-      toast.error("Account already exists with the email");
+      // @ts-ignore
+      toast.error(registerUserResult.error.data.message);
     }
   }, [registerUserResult.isLoading]);
 
   return (
     <AuthComponentWrapper>
-      <Flex className="" direction="column" gap="4">
+      <Flex className="" direction="column" gap="2">
         <Heading align="center">
           Register to{" "}
           <span
@@ -50,11 +58,31 @@ const Register = () => {
             Memories
           </span>
         </Heading>
-        <Flex direction="column" gap="4">
+        <Flex direction="column" gap="3">
           <Box>
             <TextField.Root>
               <TextField.Slot>
-                <PersonStanding height="16" width="16" />
+                <User height="16" width="16" />
+              </TextField.Slot>
+              <TextField.Input
+                color="red"
+                variant="soft"
+                size="3"
+                placeholder="Enter your username"
+                type="text"
+                {...register("username", { required: true, min: 6 })}
+              />
+            </TextField.Root>
+            {errors.name && (
+              <Text size="2" color="red" className="pl-1 ">
+                Name should be atleast 6 characters long.
+              </Text>
+            )}
+          </Box>
+          <Box>
+            <TextField.Root>
+              <TextField.Slot>
+                <DnaIcon height="16" width="16" />
               </TextField.Slot>
               <TextField.Input
                 size="3"
@@ -64,8 +92,8 @@ const Register = () => {
               />
             </TextField.Root>
             {errors.name && (
-              <Text size="2" color="red" className="pl-1 font-extrabold">
-                Name should be atleast 2 characters long.
+              <Text size="2" color="red" className="pl-1 ">
+                Username should be atleast 2 characters long.
               </Text>
             )}
           </Box>
@@ -85,7 +113,7 @@ const Register = () => {
               />
             </TextField.Root>
             {errors.email && (
-              <Text size="2" color="red" className="pl-1 font-extrabold">
+              <Text size="2" color="red" className="pl-1 ">
                 Enter valid email.
               </Text>
             )}
@@ -107,7 +135,7 @@ const Register = () => {
                 Password should be atleast 6 characters long.
               </Text>
             ) : (
-              <Text size="2" color="red" className="pl-1 font-extrabold">
+              <Text size="2" color="red" className="pl-1 ">
                 Password should be atleast 6 characters long.
               </Text>
             )}

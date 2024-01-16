@@ -28,6 +28,8 @@ const Login = () => {
       Cookies.set("AUTH_TOKEN", loginUserResult.data.data.token);
       // @ts-ignore
       Cookies.set("AUTH_EMAIL", loginUserResult.data.data.email);
+      // @ts-ignore
+      Cookies.set("AUTH_USERNAME", loginUserResult.data.data.username);
 
       navigate("/");
     } else if (loginUserResult.isError) {

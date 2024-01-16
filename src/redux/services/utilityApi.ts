@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 export const utilityApi = createApi({
   reducerPath: "utilityApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_BASE_URL}/root`,
+    baseUrl: `${import.meta.env.VITE_BACKEND_BASE_URL}/`,
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       headers.set("Authorization", `Bearer ${Cookies.get("AUTH_TOKEN")}`);
@@ -19,7 +19,10 @@ export const utilityApi = createApi({
         body: cred,
       }),
     }),
+    getUserMetaData: builder.query({
+      query: () => "/user-meta/user-meta-data",
+    }),
   }),
 });
 
-export const {} = utilityApi;
+export const { useLazyGetUserMetaDataQuery } = utilityApi;
