@@ -12,9 +12,9 @@ export const utilityApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    updateSettings: builder.mutation({
+    updateUserMeta: builder.mutation({
       query: (cred: any) => ({
-        url: `/`,
+        url: `/user-meta/update-meta`,
         method: "post",
         body: cred,
       }),
@@ -25,4 +25,4 @@ export const utilityApi = createApi({
   }),
 });
 
-export const { useLazyGetUserMetaDataQuery } = utilityApi;
+export const { useLazyGetUserMetaDataQuery, useUpdateUserMetaMutation } = utilityApi;

@@ -9,17 +9,28 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import Cookies from "js-cookie";
-import { useLazyGetUserMetaDataQuery } from "../../redux/services/utilityApi";
+import {
+  useLazyGetUserMetaDataQuery,
+  useUpdateUserMetaMutation,
+} from "../../redux/services/utilityApi";
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 const Settings = () => {
   const [getUserDataTrigger, getUserDataResult] = useLazyGetUserMetaDataQuery();
+  const [updateUserMeta, updateUserMetaResult] = useUpdateUserMetaMutation();
 
-  const [userData, setUserData] = useState<any>({});
   const username = Cookies.get("AUTH_USERNAME");
   const genders = ["Male", "Female"];
-  const pronounPairs = ["She/Her", "They/Them", "It/Its", "We/Us", "You/Your"];
+  const pronounPairs = [
+    "He/Him",
+    "She/Her",
+    "They/Them",
+    "It/Its",
+    "We/Us",
+    "You/Your",
+  ];
 
   const [localUserData, setLocalUserData] = useState({
     firstname: "",
@@ -40,13 +51,29 @@ const Settings = () => {
 
   useEffect(() => {
     if (getUserDataResult.isSuccess) {
-      setUserData(getUserDataResult.data.data.data);
+      setLocalUserData((prev: any) => {
+        return {
+          ...prev,
+          ...getUserDataResult.data.data.data,
+        };
+      });
     }
   }, [getUserDataResult.isLoading]);
 
-  const handleChange = (e) => {
-    
-  }
+  const handleChange = (e: any) => {
+    setLocalUserData({ ...localUserData, [e.target.name]: e.target.value });
+  };
+
+  const updateUserData = async () => {
+    await updateUserMeta(localUserData);
+  };
+  useEffect(()=>{
+    if(updateUserMetaResult.isSuccess){
+      toast.success("Updated")
+    }else if(updateUserMetaResult.isError){
+      toast.error("Please check all the fileds.");
+    }
+  },[updateUserMetaResult])
 
   return (
     <>
@@ -57,7 +84,7 @@ const Settings = () => {
       )}
       {getUserDataResult.isSuccess && (
         <Box className="h-[94vh] flex flex-row items-start justify-center pt-2 w-[100vw]">
-          <Box className="flex flex-col gap-7 md:w-[30%]">
+          <Box className="flex flex-col gap-7 xs:w-[90%] sm:w-[80%] md:w-[40%] ">
             <Flex direction="column" gap="4">
               <Heading as="h3">Edit profile</Heading>
               <Text size="3">
@@ -84,65 +111,106 @@ const Settings = () => {
               <Box className="flex-1">
                 <Text>First name: </Text>
                 <TextField.Root className="py-1 w-[100%] rounded-2xl">
-                  <TextField.Input size="3" type="text"
-                  onChange={(e)=> handleChange(e)} />
+                  <TextField.Input
+                    size="3"
+                    type="text"
+                    name="firstname"
+                    value={localUserData.firstname}
+                    onChange={(e) => handleChange(e)}
+                  />
                 </TextField.Root>
               </Box>
               <Box className="flex-1">
                 <Text>Last name: </Text>
                 <TextField.Root className="py-1 rounded-2xl">
-                  <TextField.Input size="3" type="text"
-                  onChange={(e)=> handleChange(e)} />
+                  <TextField.Input
+                    size="3"
+                    type="text"
+                    name="lastname"
+                    value={localUserData.lastname}
+                    onChange={(e) => handleChange(e)}
+                  />
                 </TextField.Root>
               </Box>
             </Flex>
             <Flex direction="row" gap="5" align="center">
               <Box className="flex-1 flex flex-col">
                 <Text>Pronounce: </Text>
-                <Select.Root defaultValue="null" size="3">
-                  <Select.Trigger />
-                  <Select.Content position="popper">
-                    <Select.Item value="null" disabled defaultChecked
-                    onChange={(e)=> handleChange(e)}>
-                      Add your pronounce
-                    </Select.Item>
-                    {pronounPairs.map((pronoun) => (
-                      <Select.Item key={pronoun} value={pronoun}>
-                        {pronoun}
+                {pronounPairs && (
+                  <Select.Root
+                    defaultValue={
+                      localUserData.pronounce == ""
+                        ? "null"
+                        : localUserData.pronounce
+                    }
+                    size="3"
+                    onValueChange={(value) =>
+                      setLocalUserData({ ...localUserData, pronounce: value })
+                    }
+                  >
+                    <Select.Trigger />
+                    <Select.Content position="popper">
+                      <Select.Item
+                        value="null"
+                        disabled
+                        defaultChecked
+                        onChange={(e) => handleChange(e)}
+                      >
+                        Add your pronounce
                       </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select.Root>
+                      {pronounPairs.map((pronoun) => (
+                        <Select.Item key={pronoun} value={pronoun}>
+                          {pronoun}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                )}
               </Box>
               <Box className="flex-1 flex flex-col">
                 <Text>Gender: </Text>
-                <Select.Root defaultValue="null" size="3">
-                  <Select.Trigger />
-                  <Select.Content position="popper">
-                    <Select.Item value="null" disabled defaultChecked
-                    onChange={(e)=> handleChange(e)}>
-                      Slect Your Gender
-                    </Select.Item>
-                    {genders.map((gender: string) => (
-                      <Select.Item key={gender} value={gender}>
-                        {gender}
+                {genders && (
+                  <Select.Root
+                    defaultValue={
+                      localUserData.gender != "" ? localUserData.gender : "null"
+                    }
+                    size="3"
+                    onValueChange={(value) =>
+                      setLocalUserData({ ...localUserData, gender: value })
+                    }
+                  >
+                    <Select.Trigger />
+                    <Select.Content position="popper">
+                      <Select.Item
+                        value="null"
+                        disabled
+                        defaultChecked
+                        onChange={(e) => handleChange(e)}
+                      >
+                        Slect Your Gender
                       </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select.Root>
+                      {genders.map((gender: string) => (
+                        <Select.Item key={gender} value={gender}>
+                          {gender}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                )}
               </Box>
             </Flex>
             <Box>
               <Text>About: </Text>
               <TextArea
                 className="rounded-2xl"
-                onChange={(e)=> handleChange(e)}
+                onChange={(e) => handleChange(e)}
                 rows={4}
                 size="3"
                 placeholder="Tell your story"
-                // value={data.description}
-                name="description"
+                value={localUserData.about}
+                name="about"
               />
+              <Text size="1" className="pl-2" color="red">About should be within 250 characters.</Text>
             </Box>
             <Box className="">
               <Text>Website: </Text>
@@ -150,8 +218,10 @@ const Settings = () => {
                 <TextField.Input
                   size="3"
                   type="text"
+                  name="website"
+                  value={localUserData.website}
                   placeholder="Add a link"
-                  onChange={(e)=> handleChange(e)}
+                  onChange={(e) => handleChange(e)}
                 />
               </TextField.Root>
             </Box>
@@ -167,7 +237,13 @@ const Settings = () => {
               </TextField.Root>
             </Box>
             <Box className="flex flex-row justify-end">
-              <Button size="3" radius="full" color="red">
+              <Button
+                disabled={updateUserMetaResult.isLoading ? true : false}
+                size="3"
+                radius="full"
+                color="red"
+                onClick={updateUserData}
+              >
                 Save
               </Button>
             </Box>

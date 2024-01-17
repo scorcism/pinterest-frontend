@@ -65,8 +65,6 @@ const Register = () => {
                 <User height="16" width="16" />
               </TextField.Slot>
               <TextField.Input
-                color="red"
-                variant="soft"
                 size="3"
                 placeholder="Enter your username"
                 type="text"
