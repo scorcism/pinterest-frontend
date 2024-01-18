@@ -65,15 +65,16 @@ const Settings = () => {
   };
 
   const updateUserData = async () => {
+    console.log(localUserData);
     await updateUserMeta(localUserData);
   };
-  useEffect(()=>{
-    if(updateUserMetaResult.isSuccess){
-      toast.success("Updated")
-    }else if(updateUserMetaResult.isError){
+  useEffect(() => {
+    if (updateUserMetaResult.isSuccess) {
+      toast.success("Updated");
+    } else if (updateUserMetaResult.isError) {
       toast.error("Please check all the fileds.");
     }
-  },[updateUserMetaResult])
+  }, [updateUserMetaResult]);
 
   return (
     <>
@@ -210,7 +211,30 @@ const Settings = () => {
                 value={localUserData.about}
                 name="about"
               />
-              <Text size="1" className="pl-2" color="red">About should be within 250 characters.</Text>
+              {localUserData.about.length < 1 && (
+                <Text size="1" className="pl-2" color="red">
+                  About should be within 250 characters.
+                </Text>
+              )}{" "}
+              {localUserData.about.length > 1 &&
+                localUserData.about.length <= 250 && (
+                  <Text size="1" className="pl-2" color="red">
+                    You can add{" "}
+                    <span className="font-bold">
+                      {250 - localUserData.about.length}
+                    </span>{" "}
+                    more characters' 🤗.
+                  </Text>
+                )}
+              {localUserData.about.length > 250 && (
+                <Text size="1" className="pl-2" color="red">
+                  Please remove{" "}
+                  <span className="font-bold">
+                    {Math.abs(250 - localUserData.about.length)}
+                  </span>{" "}
+                  characters' 🎈
+                </Text>
+              )}
             </Box>
             <Box className="">
               <Text>Website: </Text>
@@ -240,6 +264,7 @@ const Settings = () => {
               <Button
                 disabled={updateUserMetaResult.isLoading ? true : false}
                 size="3"
+                className="cursor-pointer"
                 radius="full"
                 color="red"
                 onClick={updateUserData}

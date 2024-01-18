@@ -22,7 +22,19 @@ export const utilityApi = createApi({
     getUserMetaData: builder.query({
       query: () => "/user-meta/user-meta-data",
     }),
+    getUserMetaDataUsingUserName: builder.query({
+      query: (cred: any) =>
+        `/root/userDataByUsername?username=${cred.username}`,
+    }),
+    getAllPosts: builder.query({
+      query: (cred: any) => `/root/getPosts?page=${cred.page}`,
+    }),
   }),
 });
 
-export const { useLazyGetUserMetaDataQuery, useUpdateUserMetaMutation } = utilityApi;
+export const {
+  useLazyGetUserMetaDataQuery,
+  useUpdateUserMetaMutation,
+  useLazyGetUserMetaDataUsingUserNameQuery,
+  useGetAllPostsQuery
+} = utilityApi;

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   Heading,
   Text,
   TextArea,
@@ -10,6 +11,7 @@ import { useEffect, useState } from "react";
 // import Select from "react-select";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { Upload } from "lucide-react";
 
 const CreatePost = () => {
   const [data, setData] = useState({
@@ -66,8 +68,6 @@ const CreatePost = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  console.log("image: ", image);
-
   return (
     <Box>
       <Box className="flex flex-row justify-between items-center px-4 py-4 border-b-[1px] border-t-[1px] border-black/20">
@@ -82,14 +82,36 @@ const CreatePost = () => {
         </Button>
       </Box>
       <Box className="flex flex-row justify-around gap-10 md:px-56 pt-10">
-        <Box className="flex-1 flex gap-5 flex-col">
-          <TextField.Input
-            type="file"
-            accept="image/png, image/jpeg, image/jpg"
-            className=""
-            onChange={(e) => setImage(e.target.files)}
-          />
-          <Box className="flex flex-col gap-5">
+        <Box className="flex-1 flex gap-5 flex-col ">
+          <Box className="w-full h-full rounded-lg">
+            <label
+              htmlFor="file-upload"
+              className="w-full text-center bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer"
+            >
+              <Flex
+                direction="column"
+                justify="center"
+                style={{ alignItems: "center" }}
+                gap="4"
+              >
+                <Upload color="black" size="30px" />
+                <Heading as="h3" className="text-black/80">
+                  Choose a file
+                </Heading>
+              </Flex>
+            </label>
+            <TextField.Input
+              type="file"
+              variant="soft"
+              accept="image/png, image/jpeg, image/jpg"
+              id="file-upload"
+              style={{
+                display: "none",
+              }}
+              onChange={(e) => setImage(e.target.files)}
+            />
+          </Box>
+          {/* <Box className="flex flex-col gap-5">
             {image && (
               <>
                 <Text>Preview: </Text>
@@ -103,9 +125,9 @@ const CreatePost = () => {
                 </Box>
               </>
             )}
-          </Box>
+          </Box> */}
         </Box>
-        <Box className="flex-1 flex flex-col gap-5">
+        <Box className="flex-1 flex flex-col gap-10">
           <Box className="flex flex-col gap-2">
             <Text size="4">Title: </Text>
             <TextField.Root>
