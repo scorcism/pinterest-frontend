@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom";
 import { useLazyGetBookmarksQuery } from "../../redux/services/utilityApi";
 import { useEffect, useState } from "react";
 import SinglePost from "../SinglePost";
-import { Box } from "@radix-ui/themes";
-import { Bath, Heading } from "lucide-react";
+import { Box, Heading } from "@radix-ui/themes";
+import { Bath } from "lucide-react";
 
 const Bookmark = () => {
   const { username } = useParams();

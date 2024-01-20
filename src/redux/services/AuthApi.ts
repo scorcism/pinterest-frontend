@@ -48,6 +48,13 @@ export const authApi = createApi({
         body: cred.body,
       }),
     }),
+    googleAuth: builder.mutation({
+      query: (cred: any) => ({
+        url: `/google/`,
+        method: "post",
+        body: cred,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +65,5 @@ export const {
   useVerifyAccountMutation,
   useResendVerifyAccountMailMutation,
   useResetPasswordMutation,
+  useGoogleAuthMutation,
 } = authApi;

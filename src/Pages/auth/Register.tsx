@@ -1,14 +1,16 @@
 import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
-import {
-  MailCheck,
-  ShieldAlert,
-  User,
-} from "lucide-react";
+import { MailCheck, ShieldAlert, User } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
-import { useRegisterUserMutation } from "../../redux/services/AuthApi";
+import {
+  useRegisterUserMutation,
+  useGoogleAuthMutation,
+} from "../../redux/services/AuthApi";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 type Inputs = {
   username: string;
@@ -18,7 +20,8 @@ type Inputs = {
 
 const Register = () => {
   const [registerUser, registerUserResult] = useRegisterUserMutation();
-
+  const [googleAuth, googleAuthResult] = useGoogleAuthMutation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -39,6 +42,33 @@ const Register = () => {
       toast.error(registerUserResult.error.data.message);
     }
   }, [registerUserResult.isLoading]);
+
+  const googleAuthFnc = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const code = tokenResponse.code;
+      await googleAuth({ code });
+    },
+    onError: (error) => {
+      console.log("google auth error: ", error);
+    },
+    flow: "auth-code",
+  });
+
+  useEffect(() => {
+    if (googleAuthResult.isSuccess) {
+      // @ts-ignore
+      Cookies.set("AUTH_TOKEN", googleAuthResult.data.data.token);
+      // @ts-ignore
+      Cookies.set("AUTH_EMAIL", googleAuthResult.data.data.email);
+      // @ts-ignore
+      Cookies.set("AUTH_USERNAME", googleAuthResult.data.data.username);
+
+      navigate("/");
+    } else if (googleAuthResult.isError) {
+      // @ts-ignore
+      toast(googleAuthResult.error.data.message);
+    }
+  }, [googleAuthResult.isLoading]);
 
   return (
     <AuthComponentWrapper>
@@ -133,6 +163,7 @@ const Register = () => {
         <Text
           size="3"
           className="cursor-pointer border-2 border-blue-600 py-2 rounded-lg text-center font-bold text-blue-600"
+          onClick={googleAuthFnc}
         >
           Signup With Google
         </Text>
