@@ -24,10 +24,26 @@ export const utilityApi = createApi({
     }),
     getUserMetaDataUsingUserName: builder.query({
       query: (cred: any) =>
-        `/root/userDataByUsername?username=${cred.username}`,
+        `/user-meta/userDataByUsername?username=${cred.username}`,
     }),
     getAllPosts: builder.query({
-      query: (cred: any) => `/root/getPosts?page=${cred.page}`,
+      query: (cred: any) => `/posts/getPosts?page=${cred.page}`,
+    }),
+    addBookmark: builder.mutation({
+      query: (cred: any) => ({
+        url: `/bookmark/addBookmark`,
+        method: "post",
+        body: cred,
+      }),
+    }),
+    getBookmarks: builder.query({
+      query: (cred: any) => `/bookmark/getBookmarks?username=${cred.username}`,
+    }),
+    getUserPosts: builder.query({
+      query: (cred: any) => `/posts/getUserPosts?username=${cred.username}`,
+    }),
+    getPost: builder.query({
+      query: (cred: any) => `/posts/getPost/${cred.id}`,
     }),
   }),
 });
@@ -36,5 +52,9 @@ export const {
   useLazyGetUserMetaDataQuery,
   useUpdateUserMetaMutation,
   useLazyGetUserMetaDataUsingUserNameQuery,
-  useGetAllPostsQuery
+  useGetAllPostsQuery,
+  useAddBookmarkMutation,
+  useLazyGetBookmarksQuery,
+  useLazyGetUserPostsQuery,
+  useGetPostQuery
 } = utilityApi;

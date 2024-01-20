@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Text } from "@radix-ui/themes";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useLazyGetUserMetaDataUsingUserNameQuery } from "../../redux/services/utilityApi";
 import { useEffect, useState } from "react";
 import NotFound from "./NotFound";
@@ -7,10 +7,11 @@ import Cookies from "js-cookie";
 
 const Profile = () => {
   const parans = useParams();
-
   const username = parans.username;
   const navigate = useNavigate();
+  const location = useLocation();
   const auth_token = Cookies.get("AUTH_TOKEN");
+  const [outletPath, setOutletPath] = useState("");
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
@@ -32,7 +33,12 @@ const Profile = () => {
 
   useEffect(() => {
     getUserData();
+    navigate("_bookmarks")
   }, [username]);
+
+  useEffect(() => {
+    setOutletPath(location.pathname.split("/")[3]);
+  }, [location.pathname]);
 
   return (
     <>
@@ -98,18 +104,31 @@ const Profile = () => {
             <Heading
               color="crimson"
               size="4"
-              className="my-5 border-none hover:bg-gray-400/20 py-2 px-5 rounded-lg cursor-pointer transition duration-300"
+              className={`my-5 border-none hover:bg-gray-400/20 py-2 px-5 rounded-lg cursor-pointer transition duration-300 ${
+                outletPath == "_posts" ? "bg-gray-400/40" : ""
+              }`}
+              onClick={() => {
+                navigate("_posts");
+              }}
             >
               All Posts
             </Heading>
             <Heading
               color="crimson"
               size="4"
-              className="my-5 border-none hover:bg-gray-400/20 py-2 px-5 rounded-lg cursor-pointer transition duration-300"
+              className={`my-5 border-none hover:bg-gray-400/20 py-2 px-5 rounded-lg cursor-pointer transition duration-300 ${
+                outletPath == "_bookmarks" ? "bg-gray-400/40" : ""
+              }`}
+              onClick={() => {
+                navigate("_bookmarks");
+              }}
             >
               Bookmarks
             </Heading>
           </Flex>
+          <Box>
+            <Outlet />
+          </Box>
         </Box>
       )}
     </>

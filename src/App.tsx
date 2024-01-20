@@ -13,6 +13,9 @@ import NotFound from "./Pages/home/NotFound";
 import PrivateRoutes from "./Components/PrivateRoutes";
 import ResendVerificationMail from "./Pages/auth/ResendVerificationMail";
 import Profile from "./Pages/home/Profile";
+import Posts from "./Components/profile/Posts";
+import Bookmarks from "./Components/profile/Bookmark";
+import Post from "./Pages/home/Post";
 
 function App() {
   return (
@@ -21,7 +24,11 @@ function App() {
       <Routes>
         {/* Home Routes, not require auth */}
         <Route index path="/" element={<Home />} />
-        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/profile/:username" element={<Profile />}>
+          <Route path="_posts" element={<Posts />} />
+          <Route path="_bookmarks" element={<Bookmarks />} />
+        </Route>
+        <Route path="/post/:id" element={<Post />} />
         <Route path="*" element={<NotFound />} />
 
         {/* Auth Routes */}

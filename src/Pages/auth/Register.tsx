@@ -1,8 +1,6 @@
 import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import {
-  DnaIcon,
   MailCheck,
-  PersonStanding,
   ShieldAlert,
   User,
 } from "lucide-react";
@@ -14,7 +12,6 @@ import toast from "react-hot-toast";
 
 type Inputs = {
   username: string;
-  name: string;
   email: string;
   password: string;
 };
@@ -71,27 +68,9 @@ const Register = () => {
                 {...register("username", { required: true, min: 6 })}
               />
             </TextField.Root>
-            {errors.name && (
+            {errors.username && (
               <Text size="2" color="red" className="pl-1 ">
-                Name should be atleast 6 characters long.
-              </Text>
-            )}
-          </Box>
-          <Box>
-            <TextField.Root>
-              <TextField.Slot>
-                <DnaIcon height="16" width="16" />
-              </TextField.Slot>
-              <TextField.Input
-                size="3"
-                placeholder="Enter your name"
-                type="text"
-                {...register("name", { required: true, min: 2 })}
-              />
-            </TextField.Root>
-            {errors.name && (
-              <Text size="2" color="red" className="pl-1 ">
-                Username should be atleast 2 characters long.
+                Username should be atleast 6 characters long.
               </Text>
             )}
           </Box>

@@ -1,7 +1,7 @@
 import { Box, Button, DropdownMenu, Flex, Heading } from "@radix-ui/themes";
 import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AppWindow, CircleUserRound } from "lucide-react";
+import { CircleUserRound } from "lucide-react";
 import Cookies from "js-cookie";
 
 const Header = () => {

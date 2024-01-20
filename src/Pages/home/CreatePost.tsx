@@ -17,6 +17,7 @@ const CreatePost = () => {
   const [data, setData] = useState({
     title: "",
     description: "",
+    url: "",
   });
 
   const [tags, setTags] = useState([]);
@@ -27,6 +28,7 @@ const CreatePost = () => {
       data.title.length < 1 ||
       data.description.length < 1 ||
       tags.length < 0 ||
+      data.url.length < 0 ||
       image == null
     ) {
       toast.error("Please fill all the fields.");
@@ -36,6 +38,7 @@ const CreatePost = () => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("desc", data.description);
+    formData.append("postUrl", data.url);
     formData.append("image", image[0]);
     formData.append("tags", JSON.stringify(tags));
 
@@ -54,6 +57,7 @@ const CreatePost = () => {
         setData({
           title: "",
           description: "",
+          url: "",
         });
         setTags([]);
         setImage(null);
@@ -86,7 +90,7 @@ const CreatePost = () => {
           <Box className="w-full h-full rounded-lg">
             <label
               htmlFor="file-upload"
-              className="w-full text-center bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer"
+              className="w-full text-center bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer rounded-3xl"
             >
               <Flex
                 direction="column"
@@ -98,12 +102,13 @@ const CreatePost = () => {
                 <Heading as="h3" className="text-black/80">
                   Choose a file
                 </Heading>
+                <Text size="2" color="red">{image && image[0].name}</Text>
               </Flex>
             </label>
             <TextField.Input
               type="file"
               variant="soft"
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               id="file-upload"
               style={{
                 display: "none",
@@ -192,6 +197,20 @@ const CreatePost = () => {
                 characters.
               </Text>
             )}
+          </Box>
+          <Box className="flex flex-col gap-2">
+            <Text size="4">Link: </Text>
+            <TextField.Root>
+              <TextField.Input
+                radius="medium"
+                placeholder="Add a Link"
+                size="3"
+                className="py-6"
+                value={data.url}
+                name="url"
+                onChange={handleChange}
+              />
+            </TextField.Root>
           </Box>
           <Box className="flex flex-col gap-2">
             <Text size="4">Tag: </Text>

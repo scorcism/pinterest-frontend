@@ -65,7 +65,6 @@ const Settings = () => {
   };
 
   const updateUserData = async () => {
-    console.log(localUserData);
     await updateUserMeta(localUserData);
   };
   useEffect(() => {
