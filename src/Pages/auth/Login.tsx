@@ -3,10 +3,11 @@ import { MailCheck, ShieldAlert } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
 import { Link, useNavigate } from "react-router-dom";
-import { useLoginUserMutation } from "../../redux/services/AuthApi";
+import { useGoogleAuthMutation, useLoginUserMutation } from "../../redux/services/AuthApi";
 import { Fragment, useEffect } from "react";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useGoogleLogin } from "@react-oauth/google";
 
 type Inputs = {
   email: string;
@@ -15,6 +16,8 @@ type Inputs = {
 
 const Login = () => {
   const [loginUser, loginUserResult] = useLoginUserMutation();
+  const [googleAuth, googleAuthResult] = useGoogleAuthMutation();
+
 
   const { register, handleSubmit } = useForm<Inputs>();
 
@@ -37,6 +40,34 @@ const Login = () => {
       toast.error(loginUserResult.error?.data.message);
     }
   }, [loginUserResult.isLoading]);
+
+
+  const googleAuthFnc = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const code = tokenResponse.code;
+      await googleAuth({ code });
+    },
+    onError: (error) => {
+      console.log("google auth error: ", error);
+    },
+    flow: "auth-code",
+  });
+
+  useEffect(() => {
+    if (googleAuthResult.isSuccess) {
+      // @ts-ignore
+      Cookies.set("AUTH_TOKEN", googleAuthResult.data.data.token);
+      // @ts-ignore
+      Cookies.set("AUTH_EMAIL", googleAuthResult.data.data.email);
+      // @ts-ignore
+      Cookies.set("AUTH_USERNAME", googleAuthResult.data.data.username);
+
+      navigate("/");
+    } else if (googleAuthResult.isError) {
+      // @ts-ignore
+      toast(googleAuthResult.error.data.message);
+    }
+  }, [googleAuthResult.isLoading]);
 
   return (
     <AuthComponentWrapper>
@@ -111,8 +142,9 @@ const Login = () => {
         <Text
           size="3"
           className="cursor-pointer border-2 border-blue-600 py-2 rounded-lg text-center font-bold text-blue-600"
+          onClick={googleAuthFnc}
         >
-          Sign in With Google
+          Signup With Google
         </Text>
       </Flex>
     </AuthComponentWrapper>

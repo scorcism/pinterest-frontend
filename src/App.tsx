@@ -16,39 +16,45 @@ import Profile from "./Pages/home/Profile";
 import Posts from "./Components/profile/Posts";
 import Bookmarks from "./Components/profile/Bookmark";
 import Post from "./Pages/home/Post";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   return (
     <>
       <Header />
-      <Routes>
-        {/* Home Routes, not require auth */}
-        <Route index path="/" element={<Home />} />
-        <Route path="/profile/:username" element={<Profile />}>
-          <Route path="_posts" element={<Posts />} />
-          <Route path="_bookmarks" element={<Bookmarks />} />
-        </Route>
-        <Route path="/post/:id" element={<Post />} />
-        <Route path="*" element={<NotFound />} />
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+        <Routes>
+          {/* Home Routes, not require auth */}
+          <Route index path="/" element={<Home />} />
+          <Route path="/profile/:username" element={<Profile />}>
+            <Route path="_posts" element={<Posts />} />
+            <Route path="_bookmarks" element={<Bookmarks />} />
+          </Route>
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="*" element={<NotFound />} />
 
-        {/* Auth Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/verify-account/:id" element={<VerifyAccount />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
-        <Route
-          path="/resent-verification-mail"
-          element={<ResendVerificationMail />}
-        />
+          {/* Auth Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-account/:id" element={<VerifyAccount />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/reset-password/:id/:token"
+            element={<ResetPassword />}
+          />
+          <Route
+            path="/resent-verification-mail"
+            element={<ResendVerificationMail />}
+          />
 
-        {/* Home Routes, require auth */}
-        <Route element={<PrivateRoutes />}>
-          <Route path="/create" element={<CreatePost />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
-      </Routes>
-      <Toaster />
+          {/* Home Routes, require auth */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="/create" element={<CreatePost />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+        </Routes>
+        <Toaster />
+      </GoogleOAuthProvider>
     </>
   );
 }

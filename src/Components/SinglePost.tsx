@@ -70,7 +70,7 @@ const SinglePost = ({ post }: { post: postType }) => {
             <Link
               to={post.postUrl}
               target="_blank"
-              className="bg-white/70 rounded-lg px-2 text-black font-bold flex justify-center items-center gap-2 text-sm"
+              className="bg-white/70 rounded-lg px-2 text-black font-bold flex justify-center items-center gap-2 text-sm py-1"
             >
               {post.postUrl.substring(0, 20)} <MousePointer2 size="15px" />
             </Link>
