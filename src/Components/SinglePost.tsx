@@ -41,14 +41,19 @@ const SinglePost = ({ post }: { post: postType }) => {
       }}
       className="relative my-3 mx-1 flex items-center justify-center"
     >
-      <img
-        src={post.url}
-        alt={post.title}
-        className="rounded-3xl cursor-zoom-in w-full"
-        onClick={() => {
-          navigate(`/post/${post._id}`);
-        }}
-      />
+      <Box>
+        <img
+          src={post.url}
+          alt={post.title}
+          className="rounded-3xl cursor-zoom-in w-full"
+        />
+        <Box
+          className="absolute top-0  w-full h-full hover:backdrop-brightness-75 transition duration-300 rounded-3xl cursor-zoom-in"
+          onClick={() => {
+            navigate(`/post/${post._id}`);
+          }}
+        />
+      </Box>
       {toShowHelper && (
         <Button
           className="absolute top-2 right-3 rounded-full cursor-pointer"
