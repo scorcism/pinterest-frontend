@@ -85,12 +85,12 @@ const CreatePost = () => {
           Publish
         </Button>
       </Box>
-      <Box className="flex flex-row justify-around gap-10 md:px-56 pt-10">
+      <Box className="flex flex-col-reverse px-6 md:flex-row justify-around gap-5 md:gap-10 md:px-56 pt-10">
         <Box className="flex-1 flex gap-5 flex-col ">
           <Box className="w-full h-full rounded-lg">
             <label
               htmlFor="file-upload"
-              className="w-full text-center bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer rounded-3xl"
+              className="w-full text-center py-6 mb-4 md:py-0 md:mb-0 bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer rounded-3xl"
             >
               <Flex
                 direction="column"
