@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useAddBookmarkMutation } from "../../redux/services/utilityApi";
 import Cookies from "js-cookie";
+import Footer from "../../Components/Footer";
 
 const Post = () => {
   const { id } = useParams();
@@ -206,6 +207,8 @@ const Post = () => {
           </Box>
         </Box>
       )}
+
+      <Footer />
     </>
   );
 };

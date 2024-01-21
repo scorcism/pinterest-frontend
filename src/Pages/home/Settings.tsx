@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import Footer from "../../Components/Footer";
 
 const Settings = () => {
   const [getUserDataTrigger, getUserDataResult] = useLazyGetUserMetaDataQuery();
@@ -350,6 +351,8 @@ const Settings = () => {
           </Box>
         </Box>
       )}
+      
+      <Footer />
     </>
   );
 };

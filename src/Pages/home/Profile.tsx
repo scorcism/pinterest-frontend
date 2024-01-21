@@ -4,6 +4,7 @@ import { useLazyGetUserMetaDataUsingUserNameQuery } from "../../redux/services/u
 import { useEffect, useState } from "react";
 import NotFound from "./NotFound";
 import Cookies from "js-cookie";
+import Footer from "../../Components/Footer";
 
 const Profile = () => {
   const parans = useParams();
@@ -33,7 +34,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserData();
-    navigate("_bookmarks")
+    navigate("_bookmarks");
   }, [username]);
 
   useEffect(() => {
@@ -131,6 +132,8 @@ const Profile = () => {
           </Box>
         </Box>
       )}
+
+      <Footer />
     </>
   );
 };

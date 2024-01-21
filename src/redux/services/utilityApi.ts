@@ -63,7 +63,7 @@ export const {
   useLazyGetUserMetaDataQuery,
   useUpdateUserMetaMutation,
   useLazyGetUserMetaDataUsingUserNameQuery,
-  useGetAllPostsQuery,
+  useLazyGetAllPostsQuery,
   useAddBookmarkMutation,
   useLazyGetBookmarksQuery,
   useLazyGetUserPostsQuery,

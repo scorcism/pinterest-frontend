@@ -43,11 +43,25 @@ const Header = () => {
           <Fragment>
             {!auth_token ? (
               <>
-                <Button className="cursor-pointer" variant="solid" color="red">
-                  <Link to="/login">Login</Link>
+                <Button
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  className="cursor-pointer"
+                  variant="solid"
+                  color="red"
+                >
+                  Login
                 </Button>
-                <Button className="cursor-pointer" variant="solid" color="red">
-                  <Link to="/register">Signup</Link>
+                <Button
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                  className="cursor-pointer"
+                  variant="solid"
+                  color="red"
+                >
+                  Signup
                 </Button>
               </>
             ) : (
@@ -63,8 +77,12 @@ const Header = () => {
                     </Button>
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Content size="2">
-                    <DropdownMenu.Item shortcut="🍕" className="cursor-pointer"
-                    onClick={()=> navigate(`/profile/${Cookies.get('AUTH_USERNAME')}`)}
+                    <DropdownMenu.Item
+                      shortcut="🍕"
+                      className="cursor-pointer"
+                      onClick={() =>
+                        navigate(`/profile/${Cookies.get("AUTH_USERNAME")}`)
+                      }
                     >
                       Profile
                     </DropdownMenu.Item>
