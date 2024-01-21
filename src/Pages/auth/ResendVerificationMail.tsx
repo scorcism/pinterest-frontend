@@ -1,10 +1,9 @@
-import { Fragment, useEffect } from "react";
-import toast from "react-hot-toast";
-import { Box, Heading } from "@radix-ui/themes";
-import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
-import { Button, Flex, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import { MailCheck } from "lucide-react";
+import { Fragment, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
 import { useResendVerifyAccountMailMutation } from "../../redux/services/AuthApi";
 
 const ResendVerificationMail = () => {
@@ -20,7 +19,7 @@ const ResendVerificationMail = () => {
   };
 
   useEffect(() => {
-    console.log(resendVerifyAccountMailResult);
+    // console.log(resendVerifyAccountMailResult);
     if (resendVerifyAccountMailResult.isSuccess) {
       toast("Verification Mail has been sent");
     } else if (resendVerifyAccountMailResult.isError) {

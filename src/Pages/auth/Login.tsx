@@ -1,13 +1,16 @@
 import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
-import { MailCheck, ShieldAlert } from "lucide-react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
-import { Link, useNavigate } from "react-router-dom";
-import { useGoogleAuthMutation, useLoginUserMutation } from "../../redux/services/AuthApi";
-import { Fragment, useEffect } from "react";
-import toast from "react-hot-toast";
-import Cookies from "js-cookie";
 import { useGoogleLogin } from "@react-oauth/google";
+import Cookies from "js-cookie";
+import { MailCheck, ShieldAlert } from "lucide-react";
+import { Fragment, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
+import {
+  useGoogleAuthMutation,
+  useLoginUserMutation,
+} from "../../redux/services/AuthApi";
 
 type Inputs = {
   email: string;
@@ -17,7 +20,6 @@ type Inputs = {
 const Login = () => {
   const [loginUser, loginUserResult] = useLoginUserMutation();
   const [googleAuth, googleAuthResult] = useGoogleAuthMutation();
-
 
   const { register, handleSubmit } = useForm<Inputs>();
 
@@ -41,14 +43,14 @@ const Login = () => {
     }
   }, [loginUserResult.isLoading]);
 
-
   const googleAuthFnc = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const code = tokenResponse.code;
       await googleAuth({ code });
     },
-    onError: (error) => {
-      console.log("google auth error: ", error);
+    onError: () => {
+      toast.error("Erro while Google Auth, Try Later");
+      // console.log("google auth error: ", error);
     },
     flow: "auth-code",
   });

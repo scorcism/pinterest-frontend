@@ -1,16 +1,16 @@
 import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
+import { useGoogleLogin } from "@react-oauth/google";
+import Cookies from "js-cookie";
 import { MailCheck, ShieldAlert, User } from "lucide-react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import AuthComponentWrapper from "../../Components/AuthComponentWrapper";
 import {
-  useRegisterUserMutation,
   useGoogleAuthMutation,
+  useRegisterUserMutation,
 } from "../../redux/services/AuthApi";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import { useGoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
 type Inputs = {
   username: string;
@@ -48,8 +48,9 @@ const Register = () => {
       const code = tokenResponse.code;
       await googleAuth({ code });
     },
-    onError: (error) => {
-      console.log("google auth error: ", error);
+    onError: () => {
+      toast.error("Error While google Auth")
+      // console.log("google auth error: ", error);
     },
     flow: "auth-code",
   });

@@ -10,8 +10,8 @@ import {
 import { useEffect, useState } from "react";
 // import Select from "react-select";
 import Cookies from "js-cookie";
-import toast from "react-hot-toast";
 import { Upload } from "lucide-react";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const [data, setData] = useState({
@@ -64,7 +64,8 @@ const CreatePost = () => {
         toast.success("New Post Added. 🥳🎈🎉🎊🪅");
       }
     } catch (error) {
-      console.log("erorr: ", error);
+      toast.error("Error while creating new Post, Please try later.")
+      // console.log("erorr: ", error);
     }
   };
 

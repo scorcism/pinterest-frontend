@@ -1,10 +1,9 @@
 import { Box, Text } from "@radix-ui/themes";
-import { useLazyGetAllPostsQuery } from "../../redux/services/utilityApi";
 import { useEffect, useState } from "react";
-import SinglePost from "../../Components/SinglePost";
-import InfiniteScroll from "react-infinite-scroll-component";
 import toast from "react-hot-toast";
-import Loader from "../../helpers/Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
+import SinglePost from "../../Components/SinglePost";
+import { useLazyGetAllPostsQuery } from "../../redux/services/utilityApi";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -27,7 +26,6 @@ const Home = () => {
 
   useEffect(() => {
     if (allPostsTriggerResult.isSuccess) {
-      console.log("im here");
       // @ts-ignore
       setPosts((prevPosts) => [
         ...prevPosts,
@@ -41,7 +39,6 @@ const Home = () => {
     }
   }, [allPostsTriggerResult.isLoading, allPostsTriggerResult.data]);
 
-  console.log(pageCount);
 
   return (
     <Box className="relative w-[100%] h-screen mx-1">
