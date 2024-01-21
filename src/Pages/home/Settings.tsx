@@ -107,7 +107,7 @@ const Settings = () => {
     checkUsernameResult.isError,
     checkUsernameResult.data,
   ]);
-// Rohan Was Here ;) 
+  // Rohan Was Here ;)
   useEffect(() => {
     if (updateUserNameResult.isSuccess) {
       setCheckUserNameResult(updateUserNameResult.data.message + "🥳");
@@ -189,11 +189,9 @@ const Settings = () => {
                 <Text>Pronouns: </Text>
                 {pronounPairs && (
                   <Select.Root
-                    defaultValue={
-                      localUserData.pronounce == ""
-                        ? "null"
-                        : localUserData.pronounce
-                    }
+                  value={
+                    localUserData.pronounce != "" ? localUserData.pronounce : "null"
+                  }
                     size="3"
                     onValueChange={(value) =>
                       setLocalUserData({ ...localUserData, pronounce: value })
@@ -222,7 +220,7 @@ const Settings = () => {
                 <Text>Gender: </Text>
                 {genders && (
                   <Select.Root
-                    defaultValue={
+                    value={
                       localUserData.gender != "" ? localUserData.gender : "null"
                     }
                     size="3"
@@ -258,6 +256,7 @@ const Settings = () => {
                 rows={4}
                 size="3"
                 placeholder="Tell your story"
+                maxLength={250}
                 value={localUserData.about}
                 name="about"
               />
