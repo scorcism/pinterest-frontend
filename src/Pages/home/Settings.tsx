@@ -8,10 +8,11 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import Cookies from "js-cookie";
 import {
   useLazyGetUserMetaDataQuery,
   useUpdateUserMetaMutation,
+  useLazyCheckUsernameQuery,
+  useUpdateUserNameMutation,
 } from "../../redux/services/utilityApi";
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
@@ -20,8 +21,11 @@ import toast from "react-hot-toast";
 const Settings = () => {
   const [getUserDataTrigger, getUserDataResult] = useLazyGetUserMetaDataQuery();
   const [updateUserMeta, updateUserMetaResult] = useUpdateUserMetaMutation();
+  const [updateUserName, updateUserNameResult] = useUpdateUserNameMutation();
+  const [checkUsernameTrigger, checkUsernameResult] =
+    useLazyCheckUsernameQuery();
 
-  const username = Cookies.get("AUTH_USERNAME");
+  const [username, setUsername] = useState("");
   const genders = ["Male", "Female"];
   const pronounPairs = [
     "He/Him",
@@ -31,7 +35,6 @@ const Settings = () => {
     "We/Us",
     "You/Your",
   ];
-
   const [localUserData, setLocalUserData] = useState({
     firstname: "",
     lastname: "",
@@ -39,10 +42,17 @@ const Settings = () => {
     gender: "",
     about: "",
     website: "",
+    username: "",
   });
+  const [checkUserNameResult, setCheckUserNameResult] = useState("");
+
   const getMetaData = async () => {
     // @ts-ignore
     await getUserDataTrigger();
+  };
+
+  const updateUsername = async () => {
+    await updateUserName({ username });
   };
 
   useEffect(() => {
@@ -57,6 +67,7 @@ const Settings = () => {
           ...getUserDataResult.data.data.data,
         };
       });
+      setUsername(getUserDataResult.data.data.data.username);
     }
   }, [getUserDataResult.isLoading]);
 
@@ -74,6 +85,46 @@ const Settings = () => {
       toast.error("Please check all the fileds.");
     }
   }, [updateUserMetaResult]);
+
+  const checkUsernameFnc = async () => {
+    // Check username
+    await checkUsernameTrigger({ username });
+  };
+
+  useEffect(() => {
+    if (checkUsernameResult.isError) {
+      // @ts-ignore
+      setCheckUserNameResult(checkUsernameResult.error.data.message + "🥲");
+    } else if (checkUsernameResult.isSuccess) {
+      setCheckUserNameResult(checkUsernameResult.data.message);
+      setTimeout(() => {
+        setCheckUserNameResult("... Saving your new username🐾");
+        updateUsername();
+      }, 1000);
+    }
+  }, [
+    checkUsernameResult.isSuccess,
+    checkUsernameResult.isError,
+    checkUsernameResult.data,
+  ]);
+
+  useEffect(() => {
+    if (updateUserNameResult.isSuccess) {
+      setCheckUserNameResult(updateUserNameResult.data.message + "🥳");
+      setLocalUserData((prev: any) => {
+        return {
+          ...prev,
+          username,
+        };
+      });
+    } else if (updateUserNameResult.isError) {
+      console.log(updateUserNameResult.error);
+    }
+  }, [
+    updateUserNameResult.isError,
+    updateUserNameResult.isSuccess,
+    updateUserNameResult.data,
+  ]);
 
   return (
     <>
@@ -97,7 +148,7 @@ const Settings = () => {
                 size="9"
                 className="bg-green-600 inline-block w-20 h-20 rounded-full text-center text-white"
               >
-                {username?.charAt(0)}
+                {localUserData.username?.charAt(0)}
               </Heading>
               <Button
                 variant="solid"
@@ -250,18 +301,39 @@ const Settings = () => {
             </Box>
             <Box className="">
               <Text>Username: </Text>
-              <TextField.Root className="py-1 w-[100%] rounded-2xl">
-                <TextField.Input
-                  disabled
-                  size="3"
-                  type="text"
-                  value={username}
-                />
-              </TextField.Root>
+              <Box className="flex gap-5 items-center">
+                <TextField.Root className="py-1 w-[100%] rounded-2xl">
+                  <TextField.Input
+                    size="3"
+                    type="text"
+                    name="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </TextField.Root>
+                <Button
+                  disabled={localUserData.username === username ? true : false}
+                  size="2"
+                  className="cursor-pointer"
+                  radius="full"
+                  color="red"
+                  onClick={checkUsernameFnc}
+                >
+                  Get UserName
+                </Button>
+              </Box>
+              <Text size="2" color="red">
+                {checkUserNameResult}
+              </Text>
             </Box>
             <Box className="flex flex-row justify-end">
               <Button
-                disabled={updateUserMetaResult.isLoading ? true : false}
+                disabled={
+                  updateUserMetaResult.isLoading ||
+                  localUserData.username !== username
+                    ? true
+                    : false
+                }
                 size="3"
                 className="cursor-pointer"
                 radius="full"
