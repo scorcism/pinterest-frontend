@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const Settings = () => {
   const [getUserDataTrigger, getUserDataResult] = useLazyGetUserMetaDataQuery();
@@ -117,8 +118,10 @@ const Settings = () => {
           username,
         };
       });
+      Cookies.set("AUTH_USERNAME", username);
+      toast.success("Username Updated🐶");
     } else if (updateUserNameResult.isError) {
-      console.log(updateUserNameResult.error);
+      toast.error("Error while updating username, Try later");
     }
   }, [
     updateUserNameResult.isError,
@@ -189,9 +192,11 @@ const Settings = () => {
                 <Text>Pronouns: </Text>
                 {pronounPairs && (
                   <Select.Root
-                  value={
-                    localUserData.pronounce != "" ? localUserData.pronounce : "null"
-                  }
+                    value={
+                      localUserData.pronounce != ""
+                        ? localUserData.pronounce
+                        : "null"
+                    }
                     size="3"
                     onValueChange={(value) =>
                       setLocalUserData({ ...localUserData, pronounce: value })
