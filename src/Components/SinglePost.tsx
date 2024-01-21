@@ -46,6 +46,9 @@ const SinglePost = ({ post }: { post: postType }) => {
           src={post.url}
           alt={post.title}
           className="rounded-3xl cursor-zoom-in w-full"
+          onClick={() => {
+            navigate(`/post/${post._id}`);
+          }}
         />
         <Box
           className="absolute top-0  w-full h-full hover:backdrop-brightness-75 transition duration-300 rounded-3xl cursor-zoom-in"

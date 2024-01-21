@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetPostQuery } from "../../redux/services/utilityApi";
-import { Box, Button, Heading, Text } from "@radix-ui/themes";
+import { Box, Button, DropdownMenu, Heading, Text } from "@radix-ui/themes";
 import { postData } from "../../types/utility.type";
 import { MoreHorizontal, Upload } from "lucide-react";
 import toast from "react-hot-toast";
@@ -80,7 +80,30 @@ const Post = () => {
                   <Upload />
                 </Box>
                 <Box className="bg-gray-500/20 hover:bg-gray-600/30 rounded-full p-1 cursor-pointer flex items-center">
-                  <MoreHorizontal />
+                  <>
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger>
+                        <MoreHorizontal size="25px" fontWeight="800" />
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Content size="2">
+                        <DropdownMenu.Item
+                          shortcut="👽"
+                          className="cursor-pointer"
+                          onClick={() => window.open(postData.url, "_blank")}
+                        >
+                          Download
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          disabled
+                          shortcut="👾"
+                          className="cursor-pointer"
+                          onClick={() => {}}
+                        >
+                          SOON
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </>{" "}
                 </Box>
               </Box>
               <Box>
@@ -109,7 +132,11 @@ const Post = () => {
             <Heading size="8" className="font-semibold">
               {isLoading ? <Skeleton /> : postData.title}
             </Heading>
-            <Text>{isLoading ? <Skeleton count={4} /> : postData.desc}</Text>
+            <Box className="">
+              <Text className="break-words">
+                {isLoading ? <Skeleton count={4} /> : postData.desc}
+              </Text>
+            </Box>
             <Box className="flex flex-wrap gap-2">
               {postData.tags.map((tag: string) => (
                 <Text className="text-blue-800">#{tag}</Text>
