@@ -45,6 +45,17 @@ export const utilityApi = createApi({
     getPost: builder.query({
       query: (cred: any) => `/posts/getPost/${cred.id}`,
     }),
+    checkUsername: builder.query({
+      query: (cred: any) =>
+        `/user-meta/checkUsername?username=${cred.username}`,
+    }),
+    updateUserName: builder.mutation({
+      query: (cred: any) => ({
+        url: `/user-meta/updateUsername`,
+        method: "post",
+        body: cred,
+      }),
+    }),
   }),
 });
 
@@ -56,5 +67,7 @@ export const {
   useAddBookmarkMutation,
   useLazyGetBookmarksQuery,
   useLazyGetUserPostsQuery,
-  useGetPostQuery
+  useGetPostQuery,
+  useLazyCheckUsernameQuery,
+  useUpdateUserNameMutation
 } = utilityApi;
