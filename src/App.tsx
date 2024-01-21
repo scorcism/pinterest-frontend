@@ -1,22 +1,22 @@
-import { Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Toaster } from "react-hot-toast";
+import { Route, Routes } from "react-router-dom";
 import Header from "./Components/Header";
+import PrivateRoutes from "./Components/PrivateRoutes";
+import Bookmarks from "./Components/profile/Bookmark";
+import Posts from "./Components/profile/Posts";
+import ForgotPassword from "./Pages/auth/ForgotPassword";
 import Login from "./Pages/auth/Login";
 import Register from "./Pages/auth/Register";
-import VerifyAccount from "./Pages/auth/VerifyAccount";
-import ResetPassword from "./Pages/auth/ResetPassword";
-import ForgotPassword from "./Pages/auth/ForgotPassword";
-import Home from "./Pages/home/Home";
-import CreatePost from "./Pages/home/CreatePost";
-import Settings from "./Pages/home/Settings";
-import { Toaster } from "react-hot-toast";
-import NotFound from "./Pages/home/NotFound";
-import PrivateRoutes from "./Components/PrivateRoutes";
 import ResendVerificationMail from "./Pages/auth/ResendVerificationMail";
-import Profile from "./Pages/home/Profile";
-import Posts from "./Components/profile/Posts";
-import Bookmarks from "./Components/profile/Bookmark";
+import ResetPassword from "./Pages/auth/ResetPassword";
+import VerifyAccount from "./Pages/auth/VerifyAccount";
+import CreatePost from "./Pages/home/CreatePost";
+import Home from "./Pages/home/Home";
+import NotFound from "./Pages/home/NotFound";
 import Post from "./Pages/home/Post";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import Profile from "./Pages/home/Profile";
+import Settings from "./Pages/home/Settings";
 
 function App() {
   return (

@@ -17,6 +17,8 @@ import {
 import { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+import Footer from "../../Components/Footer";
 
 const Settings = () => {
   const [getUserDataTrigger, getUserDataResult] = useLazyGetUserMetaDataQuery();
@@ -107,7 +109,7 @@ const Settings = () => {
     checkUsernameResult.isError,
     checkUsernameResult.data,
   ]);
-
+  // Rohan Was Here ;)
   useEffect(() => {
     if (updateUserNameResult.isSuccess) {
       setCheckUserNameResult(updateUserNameResult.data.message + "🥳");
@@ -117,8 +119,10 @@ const Settings = () => {
           username,
         };
       });
+      Cookies.set("AUTH_USERNAME", username);
+      toast.success("Username Updated🐶");
     } else if (updateUserNameResult.isError) {
-      console.log(updateUserNameResult.error);
+      toast.error("Error while updating username, Try later");
     }
   }, [
     updateUserNameResult.isError,
@@ -146,7 +150,7 @@ const Settings = () => {
             <Flex direction="row" gap="5" align="center">
               <Heading
                 size="9"
-                className="bg-green-600 inline-block w-20 h-20 rounded-full text-center text-white"
+                className="bg-green-600 w-20 h-20 rounded-full text-center text-white flex justify-center items-center"
               >
                 {localUserData.username?.charAt(0)}
               </Heading>
@@ -186,13 +190,13 @@ const Settings = () => {
             </Flex>
             <Flex direction="row" gap="5" align="center">
               <Box className="flex-1 flex flex-col">
-                <Text>Pronounce: </Text>
+                <Text>Pronouns: </Text>
                 {pronounPairs && (
                   <Select.Root
-                    defaultValue={
-                      localUserData.pronounce == ""
-                        ? "null"
-                        : localUserData.pronounce
+                    value={
+                      localUserData.pronounce != ""
+                        ? localUserData.pronounce
+                        : "null"
                     }
                     size="3"
                     onValueChange={(value) =>
@@ -207,7 +211,7 @@ const Settings = () => {
                         defaultChecked
                         onChange={(e) => handleChange(e)}
                       >
-                        Add your pronounce
+                        Add your Pronoun
                       </Select.Item>
                       {pronounPairs.map((pronoun) => (
                         <Select.Item key={pronoun} value={pronoun}>
@@ -222,7 +226,7 @@ const Settings = () => {
                 <Text>Gender: </Text>
                 {genders && (
                   <Select.Root
-                    defaultValue={
+                    value={
                       localUserData.gender != "" ? localUserData.gender : "null"
                     }
                     size="3"
@@ -258,6 +262,7 @@ const Settings = () => {
                 rows={4}
                 size="3"
                 placeholder="Tell your story"
+                maxLength={250}
                 value={localUserData.about}
                 name="about"
               />
@@ -326,7 +331,7 @@ const Settings = () => {
                 {checkUserNameResult}
               </Text>
             </Box>
-            <Box className="flex flex-row justify-end">
+            <Box className="flex flex-row justify-end mb-2">
               <Button
                 disabled={
                   updateUserMetaResult.isLoading ||
@@ -346,6 +351,8 @@ const Settings = () => {
           </Box>
         </Box>
       )}
+      
+      <Footer />
     </>
   );
 };

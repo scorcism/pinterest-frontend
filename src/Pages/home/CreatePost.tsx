@@ -44,7 +44,7 @@ const CreatePost = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/root/addPost`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/posts/addPost`,
         {
           method: "POST",
           body: formData,
@@ -85,12 +85,12 @@ const CreatePost = () => {
           Publish
         </Button>
       </Box>
-      <Box className="flex flex-row justify-around gap-10 md:px-56 pt-10">
+      <Box className="flex flex-col-reverse px-6 md:flex-row justify-around gap-5 md:gap-10 md:px-56 pt-10">
         <Box className="flex-1 flex gap-5 flex-col ">
           <Box className="w-full h-full rounded-lg">
             <label
               htmlFor="file-upload"
-              className="w-full text-center bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer rounded-3xl"
+              className="w-full text-center py-6 mb-4 md:py-0 md:mb-0 bg-gray-300/80 h-full flex flex-row items-center justify-center border-dotted cursor-pointer rounded-3xl"
             >
               <Flex
                 direction="column"
@@ -102,7 +102,9 @@ const CreatePost = () => {
                 <Heading as="h3" className="text-black/80">
                   Choose a file
                 </Heading>
-                <Text size="2" color="red">{image && image[0].name}</Text>
+                <Text size="2" color="red">
+                  {image && image[0].name}
+                </Text>
               </Flex>
             </label>
             <TextField.Input
@@ -140,6 +142,7 @@ const CreatePost = () => {
                 radius="medium"
                 placeholder="Enter the Title"
                 size="3"
+                maxLength={100}
                 className="py-6"
                 value={data.title}
                 name="title"
@@ -147,20 +150,22 @@ const CreatePost = () => {
               />
             </TextField.Root>
 
-            {data.title && data.title.length >= 1 && data.title.length < 60 && (
-              <Text size="2">
-                Only{" "}
-                <span className="text-red-800 font-bold">
-                  {60 - data.title.length}
-                </span>{" "}
-                characters are allowed now.
-              </Text>
-            )}
-            {data.title && data.title.length > 60 && (
+            {data.title &&
+              data.title.length >= 1 &&
+              data.title.length < 100 && (
+                <Text size="2">
+                  Only{" "}
+                  <span className="text-red-800 font-bold">
+                    {100 - data.title.length}
+                  </span>{" "}
+                  characters are allowed now.
+                </Text>
+              )}
+            {data.title && data.title.length > 100 && (
               <Text size="2">
                 Please delete {"  "}
                 <span className="text-red-800 font-bold">
-                  {Math.abs(60 - data.title.length)}
+                  {Math.abs(100 - data.title.length)}
                 </span>{" "}
                 characters.
               </Text>
@@ -170,29 +175,30 @@ const CreatePost = () => {
             <Text size="4">Description: </Text>
             <TextArea
               className="rounded-md"
-              rows={5}
+              rows={7}
               size="3"
               placeholder="Enter the Description"
+              maxLength={500}
               value={data.description}
               name="description"
               onChange={handleChange}
             />
             {data.description &&
               data.description.length >= 1 &&
-              data.description.length < 250 && (
+              data.description.length < 500 && (
                 <Text size="2">
                   Only{" "}
                   <span className="text-red-800 font-bold">
-                    {250 - data.description.length}
+                    {500 - data.description.length}
                   </span>{" "}
                   characters are allowed now.
                 </Text>
               )}
-            {data.description && data.description.length > 250 && (
+            {data.description && data.description.length > 500 && (
               <Text size="2">
                 Please delete {"  "}
                 <span className="text-red-800 font-bold">
-                  {Math.abs(250 - data.description.length)}
+                  {Math.abs(500 - data.description.length)}
                 </span>{" "}
                 characters.
               </Text>
