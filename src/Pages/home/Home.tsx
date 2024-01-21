@@ -19,7 +19,7 @@ const Home = () => {
     }
   }, [isLoading]);
   return (
-    <Box className="relative w-[100%] h-screen mx-1">
+    <Box className="relative  h-screen mx-1">
       <Box className="columns-2 gap-5 xs:columns-1 ss:columns-2 sm:columns-3 md:columns-5 mx-2">
         {posts &&
           posts.map((post: any) => <SinglePost key={post._id} post={post} />)}

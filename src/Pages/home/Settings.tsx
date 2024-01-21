@@ -107,7 +107,7 @@ const Settings = () => {
     checkUsernameResult.isError,
     checkUsernameResult.data,
   ]);
-
+// Rohan Was Here ;) 
   useEffect(() => {
     if (updateUserNameResult.isSuccess) {
       setCheckUserNameResult(updateUserNameResult.data.message + "🥳");
@@ -146,7 +146,7 @@ const Settings = () => {
             <Flex direction="row" gap="5" align="center">
               <Heading
                 size="9"
-                className="bg-green-600 inline-block w-20 h-20 rounded-full text-center text-white"
+                className="bg-green-600 w-20 h-20 rounded-full text-center text-white flex justify-center items-center"
               >
                 {localUserData.username?.charAt(0)}
               </Heading>
@@ -186,7 +186,7 @@ const Settings = () => {
             </Flex>
             <Flex direction="row" gap="5" align="center">
               <Box className="flex-1 flex flex-col">
-                <Text>Pronounce: </Text>
+                <Text>Pronouns: </Text>
                 {pronounPairs && (
                   <Select.Root
                     defaultValue={
@@ -207,7 +207,7 @@ const Settings = () => {
                         defaultChecked
                         onChange={(e) => handleChange(e)}
                       >
-                        Add your pronounce
+                        Add your Pronoun
                       </Select.Item>
                       {pronounPairs.map((pronoun) => (
                         <Select.Item key={pronoun} value={pronoun}>
@@ -326,7 +326,7 @@ const Settings = () => {
                 {checkUserNameResult}
               </Text>
             </Box>
-            <Box className="flex flex-row justify-end">
+            <Box className="flex flex-row justify-end mb-2">
               <Button
                 disabled={
                   updateUserMetaResult.isLoading ||

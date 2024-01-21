@@ -57,13 +57,13 @@ const Post = () => {
 
   return (
     <>
-      <Box className="h-[90vh] w-[100vw]  my-3 flex py-5 px-10 items-center justify-center ">
+      <Box className=" md:h-[90vh] w-[100%] my-3 flex py-5 px-10 items-center justify-center ">
         <Box className="shadow-2xl h-[100%] xs:w-[100%] sm:w-[80%] lg:w-[60%] rounded-2xl flex xs:flex-col md:flex-row">
-          <Box className="flex-1 flex items-center justify-center shadow-md px-1">
+          <Box className="flex-1 flex items-center justify-center px-1 border-r-0 border-gray-100 md:border-r-2">
             <img
               src={postData.url}
               alt={postData.title}
-              className="object-cover rounded-md"
+              className="object-cover shadow-md rounded-md"
             />
           </Box>
           <Box className="flex-1 py-10 px-4 flex flex-col gap-5">
@@ -129,15 +129,15 @@ const Post = () => {
                 {postData.postUrl}
               </Link>
             </Box>
-            <Heading size="8" className="font-semibold">
+            <Heading size="8" className="font-semibold break-words">
               {isLoading ? <Skeleton /> : postData.title}
             </Heading>
-            <Box className="">
-              <Text className="break-words">
+            <Box className="break-words">
+              <Text className="">
                 {isLoading ? <Skeleton count={4} /> : postData.desc}
               </Text>
             </Box>
-            <Box className="flex flex-wrap gap-2">
+            <Box className="flex flex-wrap gap-2 w-[20vw] break-words">
               {postData.tags.map((tag: string) => (
                 <Text className="text-blue-800">#{tag}</Text>
               ))}
@@ -145,7 +145,7 @@ const Post = () => {
             <Box className="flex justify-between items-center">
               <Box className="flex items-center gap-3">
                 <Heading
-                  className="bg-green-600 h-[50px] w-[50px] rounded-full text-center"
+                  className="bg-green-600 h-[50px] w-[50px] rounded-full text-center flex justify-center items-center"
                   size="8"
                 >
                   {postData.firstname.charAt(0)}{" "}
