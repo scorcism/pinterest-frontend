@@ -45,7 +45,7 @@ const Post = () => {
     if (isError) {
       toast.error("Interal server Error, Please try Later");
     }
-  }, [isLoading]);
+  }, [isLoading, isSuccess, isError]);
 
   useEffect(() => {
     if (addBookmarkResult.isSuccess) {
@@ -54,7 +54,19 @@ const Post = () => {
       // @ts-expect-error : Define Type
       toast.error(addBookmarkResult.error.data.message);
     }
-  }, [addBookmarkResult.isLoading]);
+  }, [
+    addBookmarkResult.isLoading,
+    addBookmarkResult.isError,
+    addBookmarkResult.isError,
+  ]);
+
+  useEffect(() => {
+    if (postData.title) {
+      document.title = `${postData.title} | Memories`;
+    } else {
+      document.title = `Memory💌 | Memories`;
+    }
+  }, [postData.title]);
 
   return (
     <>

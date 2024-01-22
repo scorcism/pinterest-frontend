@@ -7,7 +7,7 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import Select from "react-select";
 import Cookies from "js-cookie";
 import { Upload, XCircle } from "lucide-react";
@@ -72,6 +72,10 @@ const CreatePost = () => {
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    document.title = "Create Memory🐼 | Memories";
+  }, []);
 
   return (
     <Box>

@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // Initial fetch when the component mounts
+    document.title = "Explore🪴 | Memories";
     getAllPosts();
   }, []);
 

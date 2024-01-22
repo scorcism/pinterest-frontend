@@ -71,6 +71,10 @@ const Login = () => {
     }
   }, [googleAuthResult.isLoading]);
 
+  useEffect(() => {
+    document.title = "Login🪖 | Memories";
+  }, []);
+
   return (
     <AuthComponentWrapper>
       <Flex className="" direction="column" gap="4">

@@ -33,6 +33,7 @@ const Profile = () => {
   }, [getUserDataResult.isLoading]);
 
   useEffect(() => {
+    document.title = "Profile🐔 | Memories";
     getUserData();
     navigate("_bookmarks");
   }, [username]);

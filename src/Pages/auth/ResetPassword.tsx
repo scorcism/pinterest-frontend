@@ -38,6 +38,10 @@ const ResetPassword = () => {
     }
   }, [resetPasswordResult.isLoading]);
 
+  useEffect(() => {
+    document.title = "Reset Password🪸 | Memories";
+  }, []);
+
   return (
     <AuthComponentWrapper>
       <Flex className="" direction="column" gap="4">
