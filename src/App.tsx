@@ -18,9 +18,6 @@ import Post from "./Pages/home/Post";
 import Profile from "./Pages/home/Profile";
 import Settings from "./Pages/home/Settings";
 
-var a;
-var ab;
-
 function App() {
   return (
     <>
