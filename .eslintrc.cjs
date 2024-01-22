@@ -13,6 +13,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "react/jsx-uses-vars": "off",
+    "@typescript-eslint/no-explicit-any": ["off"],
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },

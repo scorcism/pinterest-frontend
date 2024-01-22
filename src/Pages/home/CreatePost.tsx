@@ -7,10 +7,10 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import Select from "react-select";
 import Cookies from "js-cookie";
-import { Upload } from "lucide-react";
+import { Upload, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 const CreatePost = () => {
@@ -51,7 +51,7 @@ const CreatePost = () => {
           headers: {
             Authorization: `Bearer ${Cookies.get("AUTH_TOKEN")}`,
           },
-        }
+        },
       );
       if (response.ok) {
         setData({
@@ -64,7 +64,7 @@ const CreatePost = () => {
         toast.success("New Post Added. 🥳🎈🎉🎊🪅");
       }
     } catch (error) {
-      toast.error("Error while creating new Post, Please try later.")
+      toast.error("Error while creating new Post, Please try later.");
       // console.log("erorr: ", error);
     }
   };
@@ -119,21 +119,6 @@ const CreatePost = () => {
               onChange={(e) => setImage(e.target.files)}
             />
           </Box>
-          {/* <Box className="flex flex-col gap-5">
-            {image && (
-              <>
-                <Text>Preview: </Text>
-                <Box
-                  style={{
-                    width: "400px",
-                    height: "400px",
-                  }}
-                >
-                  <img src={URL.createObjectURL(image[0])} alt="image" />
-                </Box>
-              </>
-            )}
-          </Box> */}
         </Box>
         <Box className="flex-1 flex flex-col gap-10">
           <Box className="flex flex-col gap-2">
@@ -221,7 +206,7 @@ const CreatePost = () => {
           </Box>
           <Box className="flex flex-col gap-2">
             <Text size="4">Tag: </Text>
-            <SelectTags setTags={setTags} />
+            <SelectTags tags={tags} setTags={setTags} />
           </Box>
         </Box>
       </Box>
@@ -229,69 +214,55 @@ const CreatePost = () => {
   );
 };
 
-const SelectTags = ({ setTags }: any) => {
-  // const colourOptions = [
-  //   {
-  //     value: "red",
-  //     label: "red",
-  //   },
-  //   {
-  //     value: "yellow",
-  //     label: "yellow",
-  //   },
-  //   {
-  //     value: "black",
-  //     label: "black",
-  //   },
-  //   {
-  //     value: "white",
-  //     label: "white",
-  //   },
-  // ];
-  const [localTagsSuggested, setLocalTagsSuggested] = useState([]);
-  const [customTags, setCustomTags] = useState("");
+const SelectTags = ({ tags, setTags }: any) => {
+  const handleTagSave = (e: any) => {
+    const currtags: string = String(e.target.value);
 
-  const saveTags = () => {
-    let customTagsArray: any = [];
-    localTagsSuggested.map((t: any) => {
-      customTagsArray.push(t.value);
-    });
-    customTags.split(",").map((t: any) => {
+    const customTagsArray: any = [];
+
+    currtags.split(",").map((t: any) => {
       customTagsArray.push(t.trim());
     });
-    setLocalTagsSuggested([]);
     setTags(customTagsArray);
   };
-
-  const handleTagSave = (e: any) => {
-    setCustomTags(e.target.value);
-  };
-
-  useEffect(() => {
-    saveTags();
-  }, [customTags]);
 
   return (
     <>
       <Box className="flex flex-col gap-2">
-        {/* <Select
-          value={localTagsSuggested}
-          isMulti
-          onChange={(e: any) => setLocalTagsSuggested(e)}
-          name="colors"
-          options={colourOptions}
-          className="basic-multi-select"
-          classNamePrefix="select"
-        /> */}
         <Box className="flex gap-2  flex-row justify-between items-center">
-          <TextField.Root className="flex-1">
-            <TextField.Input
-              placeholder="Enter the Tags. (Comma seperated)"
-              size="3"
-              value={customTags}
-              onChange={handleTagSave}
-            />
-          </TextField.Root>
+          <Box className="w-full">
+            <TextField.Root className="flex-1">
+              <TextField.Input
+                placeholder="Enter the Tags. (Comma seperated)"
+                size="3"
+                className=""
+                value={tags.join(",")}
+                onChange={handleTagSave}
+                maxLength={100}
+              />
+            </TextField.Root>
+            <Text size="1" color="red" className="pl-1">
+              Only 100 Charcters are allowed🐲
+            </Text>
+          </Box>
+        </Box>
+        <Box className="flex gap-3 w-[100vw] md:w-[100%] flex-wrap px-1">
+          {tags.map((tag: string) => (
+            <Box className="bg-gray-300 flex px-1 rounded-full items-center gap-[2px] ">
+              {tag.length > 0 && (
+                <>
+                  <Text className="pl-1">{tag}</Text>
+                  <XCircle
+                    size="17px"
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setTags(() => tags.filter((t: string) => t != tag));
+                    }}
+                  />
+                </>
+              )}
+            </Box>
+          ))}
         </Box>
       </Box>
     </>
