@@ -32,6 +32,10 @@ const ForgotPassword = () => {
     }
   }, [forgotPasswordResult.isLoading]);
 
+  useEffect(() => {
+    document.title = "Forgot Password🙃 | Memories";
+  }, []);
+
   return (
     <AuthComponentWrapper>
       <Flex className="" direction="column" gap="4">

@@ -70,6 +70,10 @@ const Register = () => {
     }
   }, [googleAuthResult.isLoading]);
 
+  useEffect(() => {
+    document.title = "Register🏋️‍♀️ | Memories";
+  }, []);
+
   return (
     <AuthComponentWrapper>
       <Flex className="" direction="column" gap="2">

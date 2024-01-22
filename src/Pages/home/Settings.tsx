@@ -58,6 +58,7 @@ const Settings = () => {
   };
 
   useEffect(() => {
+    document.title = "Settings🐸 | Memories";
     getMetaData();
   }, []);
 
