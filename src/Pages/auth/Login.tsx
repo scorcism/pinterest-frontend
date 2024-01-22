@@ -29,16 +29,16 @@ const Login = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (loginUserResult.isSuccess) {
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       Cookies.set("AUTH_TOKEN", loginUserResult.data.data.token);
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       Cookies.set("AUTH_EMAIL", loginUserResult.data.data.email);
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       Cookies.set("AUTH_USERNAME", loginUserResult.data.data.username);
 
       navigate("/");
     } else if (loginUserResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       toast.error(loginUserResult.error?.data.message);
     }
   }, [loginUserResult.isLoading]);
@@ -57,16 +57,16 @@ const Login = () => {
 
   useEffect(() => {
     if (googleAuthResult.isSuccess) {
-      // @ts-ignore
+      //@ts-expect-error: Define Type
       Cookies.set("AUTH_TOKEN", googleAuthResult.data.data.token);
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       Cookies.set("AUTH_EMAIL", googleAuthResult.data.data.email);
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       Cookies.set("AUTH_USERNAME", googleAuthResult.data.data.username);
 
       navigate("/");
     } else if (googleAuthResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       toast(googleAuthResult.error.data.message);
     }
   }, [googleAuthResult.isLoading]);

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SinglePost from "../../Components/SinglePost";
 import { useLazyGetAllPostsQuery } from "../../redux/services/utilityApi";
+import { postType } from "../../types/utility.type";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -26,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     if (allPostsTriggerResult.isSuccess) {
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       setPosts((prevPosts) => [
         ...prevPosts,
         ...allPostsTriggerResult.data.data.posts,
@@ -39,18 +40,23 @@ const Home = () => {
     }
   }, [allPostsTriggerResult.isLoading, allPostsTriggerResult.data]);
 
-
   return (
     <Box className="relative w-[100%] h-screen mx-1">
       <InfiniteScroll
         dataLength={posts.length}
         next={getAllPosts}
         hasMore={posts.length < totalPosts}
-        loader={<Text size="4" color="red" className="font-bold">Loading...</Text>}
+        loader={
+          <Text size="4" color="red" className="font-bold">
+            Loading...
+          </Text>
+        }
       >
         <Box className="columns-2 gap-5 xs:columns-1 ss:columns-2 sm:columns-3 md:columns-5 mx-2">
           {posts &&
-            posts.map((post: any) => <SinglePost key={post._id} post={post} />)}
+            posts.map((post: postType) => (
+              <SinglePost key={post._id} post={post} />
+            ))}
         </Box>
       </InfiniteScroll>
     </Box>

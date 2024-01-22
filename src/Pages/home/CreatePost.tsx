@@ -214,13 +214,13 @@ const CreatePost = () => {
   );
 };
 
-const SelectTags = ({ tags, setTags }: any) => {
+const SelectTags = ({ tags, setTags }: { tags: string[]; setTags: any }) => {
   const handleTagSave = (e: any) => {
     const currtags: string = String(e.target.value);
 
-    const customTagsArray: any = [];
+    const customTagsArray: string[] = [];
 
-    currtags.split(",").map((t: any) => {
+    currtags.split(",").map((t: string) => {
       customTagsArray.push(t.trim());
     });
     setTags(customTagsArray);

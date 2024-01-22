@@ -1,19 +1,48 @@
-
 export type loginType = {
-    email: String, 
-    password: String
-}
+  email: string;
+  password: string;
+};
 
 export type registerType = {
-    name: String, 
-    email: String, 
-    password: String
-}
+  username: string;
+  email: string;
+  password: string;
+};
 
-export type responseSuccssType ={
-    
-} 
+export type forgotPasswordType = {
+  email: string;
+};
 
-export type responseErrorType ={
+export type resendVerifyAccountMailType = {
+  email: string;
+};
 
-} 
+type bodyObj = {
+  password: string;
+  cpassword: string;
+};
+export type resetPasswordType = {
+  body: bodyObj;
+  id: string | undefined;
+  token: string | undefined;
+};
+
+export type googleAuthType = {
+  code: string;
+};
+
+export type successType = {
+  http_code: number;
+  message: string;
+  error_code: string;
+  data: {};
+  error: {};
+};
+
+export type errorType = {
+  http_code: number;
+  message: string;
+  error_code: string;
+  data: {};
+  error: {};
+};

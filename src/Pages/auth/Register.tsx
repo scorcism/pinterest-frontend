@@ -38,7 +38,7 @@ const Register = () => {
         icon: "🎶",
       });
     } else if (registerUserResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       toast.error(registerUserResult.error.data.message);
     }
   }, [registerUserResult.isLoading]);
@@ -49,7 +49,7 @@ const Register = () => {
       await googleAuth({ code });
     },
     onError: () => {
-      toast.error("Error While google Auth")
+      toast.error("Error While google Auth");
       // console.log("google auth error: ", error);
     },
     flow: "auth-code",
@@ -57,16 +57,15 @@ const Register = () => {
 
   useEffect(() => {
     if (googleAuthResult.isSuccess) {
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       Cookies.set("AUTH_TOKEN", googleAuthResult.data.data.token);
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       Cookies.set("AUTH_EMAIL", googleAuthResult.data.data.email);
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       Cookies.set("AUTH_USERNAME", googleAuthResult.data.data.username);
-
       navigate("/");
     } else if (googleAuthResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       toast(googleAuthResult.error.data.message);
     }
   }, [googleAuthResult.isLoading]);
