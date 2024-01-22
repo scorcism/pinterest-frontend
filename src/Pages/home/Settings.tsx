@@ -49,7 +49,7 @@ const Settings = () => {
   const [checkUserNameResult, setCheckUserNameResult] = useState("");
 
   const getMetaData = async () => {
-    // @ts-ignore
+    // @ts-expect-error: Define Type
     await getUserDataTrigger();
   };
 
@@ -95,7 +95,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (checkUsernameResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       setCheckUserNameResult(checkUsernameResult.error.data.message + "🥲");
     } else if (checkUsernameResult.isSuccess) {
       setCheckUserNameResult(checkUsernameResult.data.message);
@@ -351,7 +351,7 @@ const Settings = () => {
           </Box>
         </Box>
       )}
-      
+
       <Footer />
     </>
   );

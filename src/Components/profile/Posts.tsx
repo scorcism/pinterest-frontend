@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SinglePost from "../SinglePost";
 import { Box, Heading } from "@radix-ui/themes";
 import { Sandwich } from "lucide-react";
+import { postType } from "../../types/utility.type";
 
 const Posts = () => {
   const { username } = useParams();
@@ -22,13 +23,15 @@ const Posts = () => {
     if (getUserPostsResult.isSuccess) {
       setPosts(getUserPostsResult.data.data.posts);
     }
-  }, [getUserPostsResult.data]);
+  }, [getUserPostsResult.data, getUserPostsResult.isSuccess]);
 
   return (
     <>
       <Box className="columns-2 gap-5 xs:columns-1 ss:columns-2 sm:columns-3 md:columns-5 mx-2">
         {posts &&
-          posts.map((post: any) => <SinglePost key={post._id} post={post} />)}
+          posts.map((post: postType) => (
+            <SinglePost key={post._id} post={post} />
+          ))}
       </Box>
       {posts.length < 1 && <NoPosts />}
     </>

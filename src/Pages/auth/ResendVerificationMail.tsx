@@ -23,7 +23,7 @@ const ResendVerificationMail = () => {
     if (resendVerifyAccountMailResult.isSuccess) {
       toast("Verification Mail has been sent");
     } else if (resendVerifyAccountMailResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       toast.error(`${resendVerifyAccountMailResult.error.data.message}`);
     }
   }, [resendVerifyAccountMailResult.isLoading]);

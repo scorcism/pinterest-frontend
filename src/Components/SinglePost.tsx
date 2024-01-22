@@ -26,10 +26,14 @@ const SinglePost = ({ post }: { post: postType }) => {
     if (addBookmarkResult.isSuccess) {
       toast.success(addBookmarkResult.data.message);
     } else if (addBookmarkResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error: Define Type
       toast.error(addBookmarkResult.error.data.message);
     }
-  }, [addBookmarkResult.isLoading]);
+  }, [
+    addBookmarkResult.isLoading,
+    addBookmarkResult.isSuccess,
+    addBookmarkResult.isError,
+  ]);
 
   return (
     <Box
@@ -93,7 +97,7 @@ const SinglePost = ({ post }: { post: postType }) => {
                 className="bg-white/70 rounded-full p-1 cursor-pointer"
                 onClick={() => {
                   window.navigator.clipboard.writeText(
-                    `${window.location.href}post/${post._id}`
+                    `${window.location.href}post/${post._id}`,
                   );
                   toast("Post Copied", { icon: "🍕" });
                 }}

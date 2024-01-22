@@ -51,7 +51,7 @@ const Post = () => {
     if (addBookmarkResult.isSuccess) {
       toast.success(addBookmarkResult.data.message);
     } else if (addBookmarkResult.isError) {
-      // @ts-ignore
+      // @ts-expect-error : Define Type
       toast.error(addBookmarkResult.error.data.message);
     }
   }, [addBookmarkResult.isLoading]);
@@ -89,7 +89,7 @@ const Post = () => {
                   <Box
                     onClick={() => {
                       window.navigator.clipboard.writeText(
-                        window.location.href
+                        window.location.href,
                       );
                       toast("Post Copied", { icon: "🍕" });
                     }}
@@ -158,7 +158,9 @@ const Post = () => {
               </Box>
               <Box className="flex flex-wrap gap-2 w-[20vw] break-words">
                 {postData.tags.map((tag: string) => (
-                  <Text className="text-blue-800">#{tag}</Text>
+                  <Text key={tag} className="text-blue-800">
+                    #{tag}
+                  </Text>
                 ))}
               </Box>
               <Box className="flex justify-between items-center">
