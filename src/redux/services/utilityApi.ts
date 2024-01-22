@@ -51,7 +51,8 @@ export const utilityApi = createApi({
         `/posts/getUserPosts?username=${cred.username}`,
     }),
     getPost: builder.query({
-      query: (cred: { id: number | string }) => `/posts/getPost/${cred.id}`,
+      query: (cred: { id: number | string | undefined }) =>
+        `/posts/getPost/${cred.id}`,
     }),
     checkUsername: builder.query({
       query: (cred: usernameType) =>
