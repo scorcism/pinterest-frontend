@@ -4,7 +4,6 @@ import { useLazyGetUserMetaDataUsingUserNameQuery } from "../../redux/services/u
 import { useEffect, useState } from "react";
 import NotFound from "./NotFound";
 import Cookies from "js-cookie";
-import Footer from "../../Components/Footer";
 
 const Profile = () => {
   const parans = useParams();
@@ -35,11 +34,16 @@ const Profile = () => {
   useEffect(() => {
     document.title = "Profile🐔 | Memories";
     getUserData();
-    navigate("_bookmarks");
   }, [username]);
 
   useEffect(() => {
-    setOutletPath(location.pathname.split("/")[3]);
+    const loc = location.pathname.split("/_");
+    if (loc.length == 1) {
+      setOutletPath("bookmarks");
+      navigate("_bookmarks");
+    } else {
+      setOutletPath(loc[1].split("/")[0]);
+    }
   }, [location.pathname]);
 
   return (
@@ -107,7 +111,7 @@ const Profile = () => {
               color="crimson"
               size="4"
               className={`my-5 border-none hover:bg-gray-400/20 py-2 px-5 rounded-lg cursor-pointer transition duration-300 ${
-                outletPath == "_posts" ? "bg-gray-400/40" : ""
+                outletPath == "posts" ? "bg-gray-400/40" : ""
               }`}
               onClick={() => {
                 navigate("_posts");
@@ -119,7 +123,7 @@ const Profile = () => {
               color="crimson"
               size="4"
               className={`my-5 border-none hover:bg-gray-400/20 py-2 px-5 rounded-lg cursor-pointer transition duration-300 ${
-                outletPath == "_bookmarks" ? "bg-gray-400/40" : ""
+                outletPath == "bookmarks" ? "bg-gray-400/40" : ""
               }`}
               onClick={() => {
                 navigate("_bookmarks");
@@ -133,8 +137,6 @@ const Profile = () => {
           </Box>
         </Box>
       )}
-
-      <Footer />
     </>
   );
 };
