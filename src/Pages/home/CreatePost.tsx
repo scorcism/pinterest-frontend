@@ -12,6 +12,15 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Upload, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+
+const contentStyle = {
+  // with: "20%",
+  // maxWidth: "30%",
+  borderRadius: "10px",
+  padding: "10px 10px",
+};
 
 const CreatePost = () => {
   const [data, setData] = useState({
@@ -81,14 +90,55 @@ const CreatePost = () => {
     <Box>
       <Box className="flex flex-row justify-between items-center px-4 py-4 border-b-[1px] border-t-[1px] border-black/20">
         <Heading size="4">Create Post</Heading>
-        <Button
-          variant="solid"
-          color="red"
-          className="rounded-2xl text-md cursor-pointer"
-          onClick={handleSavePost}
+
+        <Popup
+          modal
+          trigger={
+            <Button
+              variant="solid"
+              color="red"
+              className="rounded-2xl text-md cursor-pointer"
+            >
+              Publish
+            </Button>
+          }
+          {...{
+            contentStyle,
+          }}
+          closeOnDocumentClick={false}
         >
-          Publish
-        </Button>
+          {
+            // @ts-expect-error TODO: Fix SOOON
+            (close) => (
+              <Box className="flex flex-col gap-5">
+                <Box>
+                  <Heading>
+                    The post cannot be edited after being in the published
+                    state. Be sure to check everything again.
+                  </Heading>
+                </Box>
+                <Box className="flex items-end justify-end gap-5">
+                  <Button
+                    variant="solid"
+                    color="gray"
+                    className="rounded-lg text-md cursor-pointer px-3 py-1"
+                    onClick={close}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="solid"
+                    color="red"
+                    className="rounded-lg text-md cursor-pointer px-3 py-1"
+                    onClick={handleSavePost}
+                  >
+                    Publish
+                  </Button>
+                </Box>
+              </Box>
+            )
+          }
+        </Popup>
       </Box>
       <Box className="flex flex-col-reverse px-6 md:flex-row justify-around gap-5 md:gap-10 md:px-56 pt-10">
         <Box className="flex-1 flex gap-5 flex-col ">
