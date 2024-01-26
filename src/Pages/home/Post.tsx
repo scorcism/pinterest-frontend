@@ -54,11 +54,7 @@ const Post = () => {
       // @ts-expect-error : Define Type
       toast.error(addBookmarkResult.error.data.message);
     }
-  }, [
-    addBookmarkResult.isLoading,
-    addBookmarkResult.isError,
-    addBookmarkResult.isError,
-  ]);
+  }, [addBookmarkResult.isLoading, addBookmarkResult.isError]);
 
   useEffect(() => {
     if (postData.title) {
@@ -92,7 +88,7 @@ const Post = () => {
               <img
                 src={postData.url}
                 alt={postData.title}
-                className="object-cover shadow-md rounded-md"
+                className="object-cover shadow-md rounded-md max-h-[100%]"
               />
             </Box>
             <Box className="flex-1 py-10 px-4 flex flex-col gap-5">
@@ -181,15 +177,19 @@ const Post = () => {
                     className="bg-green-600 h-[50px] w-[50px] rounded-full text-center flex justify-center items-center"
                     size="8"
                   >
-                    {postData.firstname.charAt(0)}{" "}
+                    {postData.firstname ? postData.firstname.charAt(0) : "S"}{" "}
                   </Heading>
                   <Box className="flex flex-col gap-0">
                     {isLoading ? (
                       <Skeleton count={2} />
                     ) : (
                       <Text size="3">
-                        {postData.firstname}
-                        {postData.lastname}
+                        {(postData.firstname || postData.lastname) && (
+                          <>
+                            {postData.firstname ? postData.firstname : ""}{" "}
+                            {postData.lastname ? postData.lastname : ""}
+                          </>
+                        )}
                       </Text>
                     )}
                     <Text
