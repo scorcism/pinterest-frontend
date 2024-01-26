@@ -7,20 +7,12 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import Select from "react-select";
 import Cookies from "js-cookie";
-import { Upload, XCircle } from "lucide-react";
+import { Upload } from "lucide-react";
 import toast from "react-hot-toast";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-
-const contentStyle = {
-  // with: "20%",
-  // maxWidth: "30%",
-  borderRadius: "10px",
-  padding: "10px 10px",
-};
+import SelectTags from "../../Components/elements/SelectTags";
 
 const CreatePost = () => {
   const [data, setData] = useState({
@@ -82,63 +74,21 @@ const CreatePost = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    document.title = "Create Memory🐼 | Memories";
-  }, []);
+  document.title = "Create Memory🐼 | Memories";
 
   return (
     <Box>
       <Box className="flex flex-row justify-between items-center px-4 py-4 border-b-[1px] border-t-[1px] border-black/20">
         <Heading size="4">Create Post</Heading>
 
-        <Popup
-          modal
-          trigger={
-            <Button
-              variant="solid"
-              color="red"
-              className="rounded-2xl text-md cursor-pointer"
-            >
-              Publish
-            </Button>
-          }
-          {...{
-            contentStyle,
-          }}
-          closeOnDocumentClick={false}
+        <Button
+          variant="solid"
+          color="red"
+          className="rounded-2xl text-md cursor-pointer"
+          onClick={handleSavePost}
         >
-          {
-            // @ts-expect-error TODO: Fix SOOON
-            (close) => (
-              <Box className="flex flex-col gap-5">
-                <Box>
-                  <Heading>
-                    The post cannot be edited after being in the published
-                    state. Be sure to check everything again.
-                  </Heading>
-                </Box>
-                <Box className="flex items-end justify-end gap-5">
-                  <Button
-                    variant="solid"
-                    color="gray"
-                    className="rounded-lg text-md cursor-pointer px-3 py-1"
-                    onClick={close}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="solid"
-                    color="red"
-                    className="rounded-lg text-md cursor-pointer px-3 py-1"
-                    onClick={handleSavePost}
-                  >
-                    Publish
-                  </Button>
-                </Box>
-              </Box>
-            )
-          }
-        </Popup>
+          Publish
+        </Button>
       </Box>
       <Box className="flex flex-col-reverse px-6 md:flex-row justify-around gap-5 md:gap-10 md:px-56 pt-10">
         <Box className="flex-1 flex gap-5 flex-col ">
@@ -265,61 +215,6 @@ const CreatePost = () => {
         </Box>
       </Box>
     </Box>
-  );
-};
-
-const SelectTags = ({ tags, setTags }: { tags: string[]; setTags: any }) => {
-  const handleTagSave = (e: any) => {
-    const currtags: string = String(e.target.value);
-
-    const customTagsArray: string[] = [];
-
-    currtags.split(",").map((t: string) => {
-      customTagsArray.push(t.trim());
-    });
-    setTags(customTagsArray);
-  };
-
-  return (
-    <>
-      <Box className="flex flex-col gap-2">
-        <Box className="flex gap-2  flex-row justify-between items-center">
-          <Box className="w-full">
-            <TextField.Root className="flex-1">
-              <TextField.Input
-                placeholder="Enter the Tags. (Comma seperated)"
-                size="3"
-                className=""
-                value={tags.join(",")}
-                onChange={handleTagSave}
-                maxLength={100}
-              />
-            </TextField.Root>
-            <Text size="1" color="red" className="pl-1">
-              Only 100 Charcters are allowed🐲
-            </Text>
-          </Box>
-        </Box>
-        <Box className="flex gap-3 w-[100vw] md:w-[100%] flex-wrap px-1">
-          {tags.map((tag: string) => (
-            <Box className="bg-gray-300 flex px-1 rounded-full items-center gap-[2px] ">
-              {tag.length > 0 && (
-                <>
-                  <Text className="pl-1">{tag}</Text>
-                  <XCircle
-                    size="17px"
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setTags(() => tags.filter((t: string) => t != tag));
-                    }}
-                  />
-                </>
-              )}
-            </Box>
-          ))}
-        </Box>
-      </Box>
-    </>
   );
 };
 

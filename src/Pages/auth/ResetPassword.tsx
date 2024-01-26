@@ -38,9 +38,7 @@ const ResetPassword = () => {
     }
   }, [resetPasswordResult.isLoading]);
 
-  useEffect(() => {
-    document.title = "Reset Password🪸 | Memories";
-  }, []);
+  document.title = "Reset Password🪸 | Memories";
 
   return (
     <AuthComponentWrapper>

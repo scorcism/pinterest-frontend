@@ -34,6 +34,8 @@ const ResendVerificationMail = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  document.title = "Resend Verification🐪 | Memories";
+
   return (
     <AuthComponentWrapper>
       <Flex className="" direction="column" gap="4">

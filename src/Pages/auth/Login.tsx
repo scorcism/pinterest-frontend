@@ -71,9 +71,7 @@ const Login = () => {
     }
   }, [googleAuthResult.isLoading]);
 
-  useEffect(() => {
-    document.title = "Login🪖 | Memories";
-  }, []);
+  document.title = "Login🪖 | Memories";
 
   return (
     <AuthComponentWrapper>

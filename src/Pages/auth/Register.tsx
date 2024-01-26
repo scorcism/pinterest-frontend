@@ -70,9 +70,7 @@ const Register = () => {
     }
   }, [googleAuthResult.isLoading]);
 
-  useEffect(() => {
-    document.title = "Register🏋️‍♀️ | Memories";
-  }, []);
+  document.title = "Register🏋️‍♀️ | Memories";
 
   return (
     <AuthComponentWrapper>

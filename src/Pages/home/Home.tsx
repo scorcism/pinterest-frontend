@@ -47,9 +47,11 @@ const Home = () => {
         next={getAllPosts}
         hasMore={posts.length < totalPosts}
         loader={
-          <Text size="4" color="red" className="font-bold">
-            Loading...
-          </Text>
+          <Box className="flex flex-row items-center justify-center">
+            <Text size="4" color="red" className="font-bold">
+              Loading...
+            </Text>
+          </Box>
         }
       >
         <Box className="columns-2 gap-5 xs:columns-1 ss:columns-2 sm:columns-3 md:columns-5 mx-2">

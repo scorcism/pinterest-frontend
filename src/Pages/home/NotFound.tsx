@@ -2,6 +2,8 @@ import { Box, Heading } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
+  document.title = "Not Found🐒 | scor32k";
+
   return (
     <Box className="h-[94vh] w-[100vw] flex flex-col items-center justify-center">
       <Heading

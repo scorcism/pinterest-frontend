@@ -81,6 +81,7 @@ const Settings = () => {
   const updateUserData = async () => {
     await updateUserMeta(localUserData);
   };
+
   useEffect(() => {
     if (updateUserMetaResult.isSuccess) {
       toast.success("Updated");
@@ -102,7 +103,9 @@ const Settings = () => {
       setCheckUserNameResult(checkUsernameResult.data.message);
       setTimeout(() => {
         setCheckUserNameResult("... Saving your new username🐾");
-        updateUsername();
+        setTimeout(() => {
+          updateUsername();
+        }, 1500);
       }, 1000);
     }
   }, [
