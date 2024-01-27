@@ -66,6 +66,21 @@ const Post = () => {
 
   return (
     <>
+      {isLoading && (
+        <Box className="flex flex-row h-[90vh] w-full items-center justify-center">
+          <Heading
+            size="5"
+            as="h2"
+            style={{
+              backgroundClip: "text",
+              backgroundImage: "linear-gradient(90deg, red, blue)",
+              color: "transparent",
+            }}
+          >
+            Loading....
+          </Heading>
+        </Box>
+      )}
       {isError && (
         <Box className="flex flex-row h-[90vh] w-full items-center justify-center">
           <Heading

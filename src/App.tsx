@@ -43,7 +43,7 @@ function App() {
             element={<ResetPassword />}
           />
           <Route
-            path="/resent-verification-mail"
+            path="/resend-verification-mail"
             element={<ResendVerificationMail />}
           />
 
