@@ -27,7 +27,7 @@ const VerifyAccount = () => {
     } else if (verifyAccountResult.isError) {
       toast.error("Account verification failed, please use this function");
       setTimeout(() => {
-        navigate("/resent-verification-mail");
+        navigate("/resend-verification-mail");
       }, 3000);
     }
   }, [verifyAccountResult.isLoading]);

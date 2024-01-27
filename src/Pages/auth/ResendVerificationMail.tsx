@@ -82,7 +82,7 @@ const ResendVerificationMail = () => {
             color="red"
             onClick={handleSubmit(handleResendVerificationLink)}
           >
-            Send Reset Password Link
+            Submit
           </Button>
         </Fragment>
       </Flex>

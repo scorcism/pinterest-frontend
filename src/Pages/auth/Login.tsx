@@ -134,7 +134,7 @@ const Login = () => {
           </Button>
           {loginUserResult.isError && (
             <Text size="2" className="underline text-red-800">
-              <Link to="/resent-verification-mail">
+              <Link to="/resend-verification-mail">
                 Resend Verification Mail
               </Link>
             </Text>
