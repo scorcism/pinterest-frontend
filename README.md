@@ -1,8 +1,7 @@
 # `Memories` - Pinterest Clone
 
-A **MERN** stack application.
+Welcome to Memories, a Pinterest clone built with the MERN stack!
 
-The Application consists of three microservices for handling all different functions.
 1. [React Application](https://github.com/scorcism/pinterest-frontend) - Frontend UI
 2. [Node JS/Express  Application](https://github.com/scorcism/pinterest-backend) - Backend 
 3. [Node JS/Express  Application/bullmq/redis](https://github.com/scorcism/express-mail-queue) - Mail service
